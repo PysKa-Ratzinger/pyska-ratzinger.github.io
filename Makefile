@@ -1,4 +1,4 @@
 
 all:
-	hugo -D -d ./public/ --minify
+	hugo -D -d ./docs/ --minify
 
