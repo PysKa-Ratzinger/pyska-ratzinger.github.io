@@ -1,0 +1,42 @@
+baseURL = 'http://pyska-ratzinger.github.io/'
+#baseURL = 'http://localhost:8080/'
+languageCode = 'en-us'
+title = "PysKa's Writeups"
+theme = "cactus"
+
+disqusShortname = 'pyskaratzinger'
+
+[params]
+	colortheme = "dark"
+
+	mainSection = "posts"
+	postsOnHomepage = 5
+	tagsOverview = true
+
+	show_updated = true
+	showReadTime = true
+
+	[params.comments]
+		enabled = true
+		engine = "disqus"
+
+[[menu.main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[menu.main]]
+name = "All posts"
+url = "/posts"
+weight = 2
+
+[[menu.main]]
+name = "Tags"
+url = "/tags"
+weight = 3
+
+[[menu.main]]
+name = "About"
+url = "/about"
+weight = 4
+
