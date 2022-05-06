@@ -1,4 +1,4 @@
-baseURL = 'http://pyska-ratzinger.github.io/'
+baseURL = 'https://pyska-ratzinger.github.io/'
 #baseURL = 'http://localhost:8080/'
 languageCode = 'en-us'
 title = "PysKa's Writeups"
