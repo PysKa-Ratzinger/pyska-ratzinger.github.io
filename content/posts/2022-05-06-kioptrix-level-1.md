@@ -1,8 +1,8 @@
 ---
 title: "Kioptix Level 1"
 date: 2022-05-05T17:53:43+01:00
-tags: enumeration
-category: pentest
+tags: vulnhub
+categories: pentest
 keywords:
  - nmap
  - nikto
