@@ -59,7 +59,7 @@
       </div>
     </header>
 
-  {{ with .Resources.ByType "image" }}
+  {{ with .Resources.GetMatch "thumbnail_*" }}
     <div class="article-gallery">
       {{ range $index, $value := . }}
       <a class="gallery-item" href="{{ .RelPermalink }}" rel="gallery_{{ $index }}">
