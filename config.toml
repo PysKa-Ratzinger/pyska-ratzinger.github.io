@@ -20,6 +20,24 @@ disqusShortname = 'pyskaratzinger'
 		enabled = true
 		engine = "disqus"
 
+	[params.headers]
+		Access-Control-Allow-Origin = "disqus.com"
+		referrer = "strict-origin-when-cross-origin"
+		Content-Security-Policy = """
+script-src 'strict-dynamic' 'nonce-rAnd0m123' 'unsafe-inline' http: https:;
+script-src 'unsafe-inline' 'self' disqus.com disqus-csp.disqus.com c.disquscdn.com;
+object-src 'none';
+base-uri 'none';
+require-trusted-types-for 'script';
+default-src 'none' ;
+style-src 'self' c.disquscdn.com;
+img-src 'self' referrer.disqus.com c.disquscdn.com;
+connect-src links.services.disqus.com; child-src disqus.com;
+frame-src disqus.com;
+upgrade-insecure-requests;
+block-all-mixed-content;
+"""
+
 [[menu.main]]
 name = "Home"
 url = "/"

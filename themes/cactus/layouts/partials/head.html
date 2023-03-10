@@ -25,6 +25,9 @@
   {{- $styles := resources.Get "scss/style.scss" | resources.ExecuteAsTemplate "scss/style.scss" . | resources.ToCSS $options | resources.Fingerprint "sha512" }}
   <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}"> 
 
+  <!-- Custom Content-Security-Policy -->
+  {{ range $key, $value := .Site.Params.headers }} <meta name="{{ $key }}" content="{{ trim $value '\n' }}"> {{ end }}
+
   <!-- Custom CSS -->
   {{ range .Site.Params.css }} <link rel="stylesheet" href="{{ . | absURL }}"> {{ end }}
   {{ `
