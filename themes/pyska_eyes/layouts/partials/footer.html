@@ -1,0 +1,81 @@
+<article class="center">
+	<noscript>
+		Website footer. You currently have javascript disabled.
+	</noscript>
+	<div id="nukeBtn" class="text-center hidden">
+		<div class="button warning"><button>Delete all cookies and remove consent for more cookies.</button></div>
+	</div>
+
+	<dialog id="nukeDialog">
+		<h2>Are you sure you want to delete all cookies?.</h2>
+		<form method="dialog">
+			<p>
+			<label id="nukeLabel">Note: This will also remove every consent for every third-party service you accepted to use.</label>
+			</p>
+			<div class="text-center">
+			<div class="button">
+				<button id="cancelBtn">Cancel</button>
+			</div>
+			<div class="button">
+				<button id="confirmBtn">Confirm</button>
+			</div>
+			</div>
+		</form>
+	</dialog>
+
+	<dialog id="nuke2Dialog">
+		<h2>All cookies have been deleted.</h2>
+		<form method="dialog">
+			<p>
+			The page will now refresh, in order to apply all changes.
+			</p>
+			<div class="text-center">
+				<div class="button">
+					<button>Close</button>
+				</div>
+			</div>
+		</form>
+	</dialog>
+
+</article>
+
+<script>
+	const nukeBtn = document.getElementById("nukeBtn");
+	const nukeDialog = document.getElementById("nukeDialog");
+	const nuke2Dialog = document.getElementById("nuke2Dialog");
+	const nukeConfirmBtn = nukeDialog.querySelector('#confirmBtn');
+
+	function deleteAllCookies() {
+		var cookies = document.cookie.split("; ");
+		for (var c = 0; c < cookies.length; c++) {
+			var d = window.location.hostname.split(".");
+			while (d.length > 0) {
+				var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
+				var p = location.pathname.split('/');
+				document.cookie = cookieBase + '/';
+				while (p.length > 0) {
+					document.cookie = cookieBase + p.join('/');
+					p.pop();
+				};
+				d.shift();
+			}
+		}
+		nuke2Dialog.showModal();
+
+		setTimeout(() => {
+			document.location.reload();
+		}, 3000);
+	}
+
+	nukeBtn.onclick = () => {
+		nukeDialog.showModal();
+	};
+
+	nukeConfirmBtn.onclick = () => {
+		deleteAllCookies();
+	};
+
+	// Show nuke button.
+	nukeBtn.classList.remove("hidden");
+</script>
+

@@ -1,0 +1,210 @@
+<article>
+	<dialog id="rgpdDialog">
+		<h2>Your privacy is valued.</h2>
+		<form method="dialog">
+			<p>
+			<label id="rgpdLabel"></label>
+			</p>
+			<div class="text-center">
+			<div class="button">
+				<button id="cancelBtn">Cancel</button>
+			</div>
+			<div class="button">
+				<button id="confirmBtn">Confirm</button>
+			</div>
+			</div>
+		</form>
+	</dialog>
+
+	<div id="comment-section-container">
+		<div id="comment-control" class="center">
+			<div id="comments-enable">
+				<div class="button">
+					<button id="enable-cactus-chat">Enable comments through Cactus Chat. (requires javascript)</button>
+				</div>
+			</div>
+			<div id="comments-disable">
+				<div class="button">
+					<button id="disable-cactus-chat">Disable comments.</button>
+				</div>
+			</div>
+		</div>
+		<div id="comments"/>
+	</div>
+</article>
+
+<script>
+	const favDialog = document.getElementById('rgpdDialog');
+	const cancelBtn = favDialog.querySelector('#cancelBtn');
+	const confirmBtn = favDialog.querySelector('#confirmBtn');
+	const rgpdLabel = favDialog.querySelector('#rgpdLabel');
+
+	cancelBtn.value = false;
+	confirmBtn.value = true;
+
+	let listeners = [];
+
+	// "Confirm" button of form triggers "close" on dialog because of [method="dialog"]
+	favDialog.addEventListener('close', () => {
+		old_listeners = listeners;
+		listeners = [];
+		old_listeners.forEach((listener) => {
+			listener(favDialog.returnValue);
+		});
+	});
+
+	function showRgpdDialog(msg, cb) {
+		rgpdLabel.innerText = msg;
+		listeners.push(cb);
+		favDialog.showModal();
+	}
+
+	function getCookie(name) {
+		if (navigator.cookieEnabled) {
+			const value = `; ${document.cookie}`;
+			const parts = value.split(`; ${name}=`);
+			if (parts.length === 2)
+				return parts.pop().split(";").shift();
+		}
+		return undefined;
+	}
+
+	function setCookie(name, value, days) {
+		let expires = "";
+		if (days) {
+			let date = new Date();
+			date.setTime(date.getTime() + (days*24*60*60*1000));
+			expres = "; expires=" + date.toUTCString();
+		}
+		document.cookie = `${name}=${value || ""}${expires}; path=/; SameSite=strict`;
+	}
+
+	function eraseCookie(name) {
+		document.cookie = `${name}=; Expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+	}
+
+	function getMainCookie() {
+		if (navigator.cookieEnabled) {
+			let c = getCookie('pyskawriteups');
+			if (c) {
+				let cookies = JSON.parse(atob(c));
+				return cookies;
+			}
+		}
+		return false;
+	}
+
+	function saveMainCookie(cookies) {
+		if (navigator.cookieEnabled) {
+			let encoded = btoa(JSON.stringify(cookies));
+			setCookie('pyskawriteups', encoded, 30);
+		}
+		return false;
+	}
+
+	function acceptThirdParty(name) {
+		let cookies = getMainCookie();
+		if (!cookies) cookies = { "third-party": [] };
+
+		if (!cookies["third-party"].includes(name)) {
+			cookies["third-party"].push(name);
+			saveMainCookie(cookies);
+		}
+	}
+
+	function rejectThirdParty(name) {
+		let cookies = getMainCookie();
+		if (!cookies) cookies = { "third-party": [] };
+		if (cookies["third-party"].includes(name)) {
+			cookies["third-party"] =
+				cookies["third-party"].filter(x => x !== name);
+			saveMainCookie(cookies);
+		}
+	}
+
+	function userAskIfAcceptsThirdParty(name) {
+		return new Promise((resolve, reject) => {
+			showRgpdDialog(`In order to use the functionality provided by ${name}, you need to allow this third-party to use cookies on this website. Is this something you want to allow?`, (res) => {
+				res = (res === "true");
+				if (res) {
+					acceptThirdParty(name);
+				}
+				resolve(res);
+			});
+		});
+	}
+
+	async function userAcceptedThirdParty(name, askUser) {
+		return new Promise(async (resolve) => {
+			let cookies = getMainCookie();
+			let res = cookies &&
+				"third-party" in cookies &&
+				cookies["third-party"].includes(name);
+			if (!res && askUser)
+				res = await userAskIfAcceptsThirdParty(name);
+			resolve(res);
+		});
+	}
+
+	async function impl_initComments(shouldEnable, askUser) {
+		let commentSection = document.getElementById("comments");
+		let commentsEnable = document.getElementById("comments-enable");
+		let commentsDisable = document.getElementById("comments-disable");
+
+		let thirdPartyName = "cactus-chat";
+
+		if (!shouldEnable) {
+			rejectThirdParty(thirdPartyName);
+			commentSection.innerHTML = "";
+			commentsEnable.classList.remove("hidden");
+			commentsDisable.classList.add("hidden");
+			return true;
+		}
+
+		let res = await userAcceptedThirdParty(thirdPartyName, askUser);
+		if (!res) {
+			commentsEnable.classList.remove("hidden");
+			commentsDisable.classList.add("hidden");
+			return false;
+		}
+
+		commentsEnable.classList.add("hidden");
+		commentsDisable.classList.remove("hidden");
+
+		let scriptTag = document.createElement("script");
+		scriptTag.type = "text/javascript";
+		scriptTag.src = "https://latest.cactus.chat/cactus.js";
+		scriptTag.onload = () => {
+			initComments({
+				node: document.getElementById("comment-section"),
+				defaultHomeserverUrl: "https://matrix.cactus.chat:8448",
+				serverName: "cactus.chat",
+				siteName: "pyska-ratzinger.github.io",
+				commentSectionId: "{{ index .Params 0 }}"
+			})
+		};
+
+		let linkTag = document.createElement("link");
+		linkTag.rel = "stylesheet";
+		linkTag.href = "https://latest.cactus.chat/style.css";
+		linkTag.type = "text/css";
+
+		let divTag = document.createElement("div");
+		divTag.id = "comment-section";
+
+		commentSection.innerHTML = "";
+		commentSection.appendChild(scriptTag);
+		commentSection.appendChild(linkTag);
+		commentSection.appendChild(divTag);
+
+		return true;
+	}
+
+	enableCactusButton = document.getElementById("enable-cactus-chat");
+	disableCactusButton = document.getElementById("disable-cactus-chat");
+	enableCactusButton.onclick = (() => { impl_initComments(true, true); });
+	disableCactusButton.onclick = (() => { impl_initComments(false, true); });
+	impl_initComments(true, false);
+
+</script>
+

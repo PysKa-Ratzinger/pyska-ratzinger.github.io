@@ -2,11 +2,17 @@ baseURL = 'https://pyska-ratzinger.github.io/'
 #baseURL = 'http://localhost:8080/'
 languageCode = 'en-us'
 title = "PysKa's Writeups"
-theme = "cactus"
+theme = "pyska_eyes"
 
 disqusShortname = 'pyskaratzinger'
 
+[author]
+	name = "PysKa Ratzinger"
+	email = "ricardojorge512@hotmail.com"
+
 [params]
+	description = "A blog with writeup's or something. Idk. It's probably boring."
+
 	colortheme = "dark"
 
 	mainSection = "posts"
@@ -20,41 +26,57 @@ disqusShortname = 'pyskaratzinger'
 		enabled = true
 		engine = "disqus"
 
-	[params.headers]
-		Access-Control-Allow-Origin = "disqus.com"
-		referrer = "strict-origin-when-cross-origin"
-		Content-Security-Policy = """
-script-src 'strict-dynamic' 'nonce-rAnd0m123' 'unsafe-inline' http: https:;
-script-src 'unsafe-inline' 'self' disqus.com disqus-csp.disqus.com c.disquscdn.com;
-object-src 'none';
-base-uri 'none';
-require-trusted-types-for 'script';
-default-src 'none' ;
-style-src 'self' c.disquscdn.com;
-img-src 'self' referrer.disqus.com c.disquscdn.com;
-connect-src links.services.disqus.com; child-src disqus.com;
-frame-src disqus.com;
-upgrade-insecure-requests;
-block-all-mixed-content;
-"""
+[privacy]
+	[privacy.disqus]
+		disable = true
+	[privacy.googleAnalytics]
+		anonymizeIP = true
+		disable = true
+		respectDoNotTrack = true
+		useSessionStorage = true
+	[privacy.instagram]
+		disable = true
+		simple = true
+	[privacy.twitter]
+		disable = true
+		enableDNT = true
+		simple = true
+	[privacy.vimeo]
+		disable = true
+		enableDNT = true
+		simple = true
+	[privacy.youtube]
+		disable = true
+		privacyEnhanced = true
 
 [[menu.main]]
-name = "Home"
-url = "/"
-weight = 1
+	name = "Home"
+	url = "/"
+	weight = 1
 
 [[menu.main]]
-name = "All posts"
-url = "/posts"
-weight = 2
+	name = "All posts"
+	url = "/posts"
+	weight = 2
 
 [[menu.main]]
-name = "Tags"
-url = "/tags"
-weight = 3
+	name = "Categories"
+	url = "/categories"
+	weight = 3
 
 [[menu.main]]
-name = "About"
-url = "/about"
-weight = 4
+	name = "Tags"
+	url = "/tags"
+	weight = 4
+
+[[menu.main]]
+	name = "About"
+	url = "/about"
+	weight = 5
+
+[[menu.social]]
+    name = "GitHub"
+    url = "https://github.com/PysKa-Ratzinger/"
+    pre = "<i class='fab fa-github'>Github</i>"
+	weight = 1
 

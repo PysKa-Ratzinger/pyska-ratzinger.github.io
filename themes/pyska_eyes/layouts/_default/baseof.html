@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+    {{ partial "head.html" . }}
+    <body class="infinitile">
+        {{ partial "header.html" . }}
+		<div class="main container">
+        {{ block "main" . }}{{ end }}
+		</div>
+		<div class="container">
+        {{ partial "footer.html" . }}
+		</div>
+    </body>
+</html>

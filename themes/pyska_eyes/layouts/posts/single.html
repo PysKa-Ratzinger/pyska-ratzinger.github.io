@@ -1,0 +1,45 @@
+{{ define "main" }}  
+<div class="container">  
+	<div class="blog_info">  
+		<div class="author-image-container">  
+			<img src="/img/LaughingMan.svg" alt="author-image"/>
+		</div>  
+		<div class="blog_description">
+			<p>By {{ .Site.Author.name }}</p>  
+			<p><time>{{ .PublishDate.Format "January 2, 2006" }}</time> |   
+			{{ .ReadingTime }} {{ if eq .ReadingTime 1 }} minute {{ else }} minutes {{ end }} read  
+			</p>  
+			{{ if gt .Params.categories 0 }}
+			<div class="blog_categories">  
+				<label>Categories:</label>
+				{{ range $index, $value := .Params.categories }}
+				{{ if gt $index 0 }}{{ print ", " }}{{ end }}
+				<a class="category-link" href="{{ "/categories/" | relLangURL }}{{ $value | urlize }}">{{ $value }}</a>
+				{{ end }}
+			</div>  
+			{{ end }}
+			{{ if isset .Params "tags" }}
+			<div class="blog_tags">  
+				<label>Tags:</label>
+				{{ range $index, $value := .Params.tags }}
+				{{ if gt $index 0 }}{{ print ", " }}{{ end }}
+				<a class="tag-link" href="{{ "/tags/" | relLangURL }}{{ $value | urlize }}">{{ $value }}</a>
+				{{ end }}
+			</div>  
+			{{ end }}
+		</div>
+	</div>  
+
+	<article>  
+		<div class="blog_container">  
+			<div class="blog_details">  
+				<h1 class="title">{{ .Title }}</h1>
+			</div>  
+			<div class="content">  
+				{{ .Content }}  
+			</div>  
+		</div>  
+	</article>  
+	{{- partial "chat.html" . -}}
+</div>  
+{{ end }} 

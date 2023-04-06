@@ -1,0 +1,411 @@
+
+:root {
+	--main-color-bg:         #222;
+	--main-color-fg:         #fff;
+	--main-color-banner-bg:  #000;
+	--main-color-banner:     #ddd;
+	--main-color-outline:    #ddd;
+	--main-color-warning:    #f00;
+	--main-color-focus:      #0f0;
+	--main-color-focus-dark: #050;
+	--main-color-code:       #0f0;
+	--main-color-code-bg:    #000;
+	--main-color-code-dark:  #0a0;
+	--main-color-cyan:       #93f;
+	--main-color-cyan-dark:  #44a;
+	--main-color-title:      #a0f;
+	--main-color-title-dark: #206;
+}
+
+@keyframes bg-scrolling {
+	0% {
+		background-position: 0px 0px;
+	}
+	100% {
+		background-position: 50px 50px;
+	}
+}
+
+@font-face {
+	font-family: FantasqueSansMono;
+	src: url("/img/fonts/Webfonts/FantasqueSansMono-Regular.woff");
+}
+
+.infinitile {
+	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAAVUExURWdnaAQEBBYWFwAAAGRkZBISE////xVUsEcAAAABYktHRAZhZrh9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5wQCDQMfNuEitAAAACZJREFUOMtjYFTCDhQZTIyxAxOGYBwyxqMyozKjMqMyQ0IGZ/kGAF15/SBcdV8VAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIzLTA0LTAyVDEzOjAzOjA5KzAwOjAwBUaQWwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMy0wNC0wMlQxMzowMjo0NyswMDowME+sNn4AAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjMtMDQtMDJUMTM6MDM6MzErMDA6MDCebkC8AAAAAElFTkSuQmCC") repeat 0 0;
+	animation: bg-scrolling 2s infinite;
+	animation-timing-function: linear;
+}
+
+body, dialog, button {
+	background: var(--main-color-bg);
+
+	color: var(--main-color-fg);
+	font-family: FantasqueSansMono, monospace;
+}
+
+body {
+	margin: 0em 2em 0em 2em;
+	padding-bottom: 20rem;
+	display: flex;
+	flex-direction: column;
+}
+
+a {
+	background: var(--main-color-bg);
+	color: var(--main-color-cyan);
+	font-weight: bold;
+}
+
+a:focus { color: var(--main-color-focus); }
+a:hover { color: var(--main-color-cyan-dark); }
+
+ul {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+ul li {
+	flex: 1 0 33%;
+}
+
+.tf-banner {
+	padding: 1em;
+	background: var(--main-color-banner-bg);
+	color: var(--main-color-banner);
+}
+
+.charcoal-t-s {
+	text-shadow: 2px 2px #fff !important;
+}
+
+@media (min-width: 400px) {
+	.container { max-width: 400px; }
+	.container-h { max-width: 400px; }
+	dialog { max-width: 300px; }
+}
+
+@media (min-width: 600px) {
+	.container { max-width: 600px; }
+	.container-h { max-width: 600px; }
+	dialog { max-width: 500px; }
+}
+
+@media (min-width: 800px) {
+	.container { max-width: 800px; }
+	.container-h { max-width: 800px; }
+	dialog { max-width: 600px; }
+}
+
+@media (min-width: 1000px) {
+	.container { max-width: 1000px; }
+	.container-h { max-width: 1000px; }
+	dialog { max-width: 800px; }
+}
+
+@media (min-width: 1200px) {
+	.container { max-width: 1200px; }
+	.container-h { max-width: 1200px; }
+	dialog { max-width: 900px; }
+}
+
+.container-h {
+	display: flex;
+	width: 100%;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+}
+
+.ml-6 {
+	margin-left: 6em;
+}
+
+.space-around {
+	justify-content: space-around;
+}
+
+.space-between {
+	justify-content: space-between;
+}
+
+.flex-end {
+	justify-content: flex-end;
+}
+
+h1 {
+	margin: 0.3em;
+}
+
+h1.title {
+	font-size: 2em;
+	text-align: center;
+}
+
+.main {
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+
+	margin-top: 2em;
+}
+
+article {
+	padding: 1em;
+
+	outline: var(--main-color-outline) solid 0.1em;
+
+	margin-top: 0.1em;
+}
+
+.content {
+	padding: 1em;
+}
+
+.button h2 {
+	margin: 0;
+}
+
+.button {
+	font-family: FantasqueSansMono, monospace;
+	display: inline-block;
+	width: max-content;
+	height: max-content;
+	padding: 0.2em;
+
+	outline: var(--main-color-outline) solid 0.1em;
+
+	transition: outline .3s ease-in-out;
+	transition: outline-offset .2s ease-in-out;
+}
+
+.button:focus-within {
+	outline: var(--main-color-focus) dashed 0.2em;
+	outline-offset: -0.4em;
+
+	transition: outline .2s ease-in-out;
+	transition: outline-offset .2s ease-in-out;
+}
+
+.button:hover {
+	outline: var(--main-color-outline) dashed 0.2em;
+	outline-offset: -0.4em;
+
+	transition: outline .2s ease-in-out;
+	transition: outline-offset .2s ease-in-out;
+}
+
+.button.warning { outline: var(--main-color-warning) solid 0.1em; }
+.button.warning:focus-within { outline: var(--main-color-warning) dashed 0.2em; }
+.button.warning:hover { outline: var(--main-color-warning) dashed 0.2em; }
+
+.main-title {
+	width: 100%;
+	display: flex;
+	margin-bottom: 1em;
+	justify-content: center;
+}
+
+.main-title h1 { font-size: 4em; }
+
+.main-title a {
+	display: block;
+	background: transparent;
+	color: var(--main-color-title);
+	text-decoration: none;
+	padding: 0.5em;
+	margin: 0.5em;
+
+	transition: all .3s ease-in-out;
+}
+
+.main-title a:focus {
+	background: var(--main-color-focus-dark);
+	border-radius: 100px;
+	color: var(--main-color-focus);
+	outline: var(--main-color-focus) solid 0.1em;
+}
+
+.main-title a:hover {
+	background: var(--main-color-title);
+	border-radius: 100px;
+	color: var(--main-color-title-dark);
+	outline: var(--main-color-title) solid 0.1em;
+
+	transition: all .5s ease-in-out;
+}
+
+a.main-title {
+	display: block;
+	background: var(--main-color-bg);
+	color: var(--main-color-fg);
+	padding: 0.5em;
+}
+
+a.main-title:focus {
+	color: var(--main-color-focus);
+	outline: none;
+}
+
+a.main-title:hover {
+	color: var(--main-color-cyan);
+
+	transition: color .3s ease-out;
+}
+
+.button a {
+	display: block;
+	background: var(--main-color-bg);
+	color: var(--main-color-fg);
+	text-decoration: none;
+	outline: var(--main-color-outline) solid 0.1em;
+	padding: 0.5em;
+	margin: 0.5em;
+}
+
+.button a:focus {
+	color: var(--main-color-focus);
+	outline: var(--main-color-focus) solid 0.1em;
+}
+
+.button a:hover {
+	background: var(--main-color-fg);
+	color: var(--main-color-bg);
+	outline: var(--main-color-bg) solid 0.1em;
+
+	transition: outline .3s ease-in-out;
+}
+
+.button button {
+	display: block;
+	background: var(--main-color-bg);
+	color: var(--main-color-fg);
+	text-decoration: none;
+	outline: var(--main-color-outline) solid 0.1em;
+	padding: 0.5em;
+	margin: 0.5em;
+}
+
+.button button:focus {
+	color: var(--main-color-focus);
+	outline: var(--main-color-focus) solid 0.1em;
+}
+
+.button button:hover {
+	background: var(--main-color-fg);
+	color: var(--main-color-bg);
+	outline: var(--main-color-bg) solid 0.1em;
+
+	transition: outline .3s ease-in-out;
+}
+
+.button.warning button {
+	outline: var(--main-color-warning) solid 0.1em;
+	color: var(--main-color-warning) !important;
+}
+.button.warning button:focus-within {
+	outline: var(--main-color-warning) dashed 0.2em;
+	color: var(--main-color-warning);
+}
+.button.warning button:hover {
+	outline: var(--main-color-warning) dashed 0.2em;
+	color: var(--main-color-warning);
+	background: var(--main-color-fg);
+}
+
+.warning {
+	color: var(--main-color-warning);
+	font-weight: bolder;
+	font-size: x-large;
+}
+
+.tf-banner.warning {
+	padding: 1em;
+	background: var(--main-color-banner-bg);
+	display: flex;
+	text-align: justify;
+	background: black;
+	padding: 1em;
+	align-items: center;
+}
+
+img {
+	vertical-align: middle;
+	max-width: 100%;
+}
+
+.warning img { height: 6em; }
+
+@media (max-width: 800px) {
+	.warning { flex-direction: column; }
+	.warning img { height: 0; }
+}
+
+.row {
+	display: flex;
+}
+
+footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+}
+
+code {
+	display: block;
+	background: var(--main-color-code-bg);
+	font-family: FantasqueSansMono, monospace;
+	font-weight: bold;
+	color: var(--main-color-code);
+	padding: 1em 2em 1em 2em;
+	overflow: auto;
+	max-height: 30em;
+}
+
+.blog_info {
+	display: flex;
+	width: fit-content;
+	flex-direction: row;
+	background: var(--main-color-banner-bg);
+
+	margin-left: auto;
+	outline: var(--main-color-outline) solid 0.1em;
+	margin-right: 2em;
+}
+
+h1.title {
+	font-size: 3em;
+	text-align: center;
+}
+
+.blog_description {
+	padding: 1em;
+
+	font-weight: bold;
+}
+
+.author-image-container img {
+	width: 11em;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.mt-1 {
+	margin-top: 1em;
+}
+
+.hidden {
+	display: none;
+}
+
