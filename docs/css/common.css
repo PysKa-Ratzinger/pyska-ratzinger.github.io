@@ -47,8 +47,6 @@ body, dialog, button {
 body {
 	margin: 0em 2em 0em 2em;
 	padding-bottom: 20rem;
-	display: flex;
-	flex-direction: column;
 }
 
 a {
@@ -60,15 +58,6 @@ a {
 a:focus { color: var(--main-color-focus); }
 a:hover { color: var(--main-color-cyan-dark); }
 
-ul {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-ul li {
-	flex: 1 0 33%;
-}
-
 .tf-banner {
 	padding: 1em;
 	background: var(--main-color-banner-bg);
@@ -76,63 +65,7 @@ ul li {
 }
 
 .charcoal-t-s {
-	text-shadow: 2px 2px #fff !important;
-}
-
-@media (min-width: 400px) {
-	.container { max-width: 400px; }
-	.container-h { max-width: 400px; }
-	dialog { max-width: 300px; }
-}
-
-@media (min-width: 600px) {
-	.container { max-width: 600px; }
-	.container-h { max-width: 600px; }
-	dialog { max-width: 500px; }
-}
-
-@media (min-width: 800px) {
-	.container { max-width: 800px; }
-	.container-h { max-width: 800px; }
-	dialog { max-width: 600px; }
-}
-
-@media (min-width: 1000px) {
-	.container { max-width: 1000px; }
-	.container-h { max-width: 1000px; }
-	dialog { max-width: 800px; }
-}
-
-@media (min-width: 1200px) {
-	.container { max-width: 1200px; }
-	.container-h { max-width: 1200px; }
-	dialog { max-width: 900px; }
-}
-
-.container-h {
-	display: flex;
-	width: 100%;
-}
-
-.container {
-	display: flex;
-	flex-direction: column;
-}
-
-.ml-6 {
-	margin-left: 6em;
-}
-
-.space-around {
-	justify-content: space-around;
-}
-
-.space-between {
-	justify-content: space-between;
-}
-
-.flex-end {
-	justify-content: flex-end;
+	text-shadow: 2px 2px #0af !important;
 }
 
 h1 {
@@ -140,7 +73,6 @@ h1 {
 }
 
 h1.title {
-	font-size: 2em;
 	text-align: center;
 }
 
@@ -171,8 +103,6 @@ article {
 .button {
 	font-family: FantasqueSansMono, monospace;
 	display: inline-block;
-	width: max-content;
-	height: max-content;
 	padding: 0.2em;
 
 	outline: var(--main-color-outline) solid 0.1em;
@@ -203,7 +133,7 @@ article {
 
 .main-title {
 	width: 100%;
-	display: flex;
+	text-align: center;
 	margin-bottom: 1em;
 	justify-content: center;
 }
@@ -324,7 +254,6 @@ a.main-title:hover {
 .tf-banner.warning {
 	padding: 1em;
 	background: var(--main-color-banner-bg);
-	display: flex;
 	text-align: justify;
 	background: black;
 	padding: 1em;
@@ -376,7 +305,7 @@ code {
 }
 
 h1.title {
-	font-size: 3em;
+	/* font-size: 3em; */
 	text-align: center;
 }
 
@@ -387,6 +316,7 @@ h1.title {
 }
 
 .author-image-container img {
+	min-width: 11em;
 	width: 11em;
 }
 
