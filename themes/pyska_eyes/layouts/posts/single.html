@@ -6,9 +6,12 @@
 		</div>  
 		<div class="blog_description">
 			<p>By {{ .Site.Author.name }}</p>  
-			<p><time>{{ .PublishDate.Format "January 2, 2006" }}</time> |   
+			<p>Published on: <time>{{ .PublishDate.Format "2 January, 2006" }}</time> |   
 			{{ .ReadingTime }} {{ if eq .ReadingTime 1 }} minute {{ else }} minutes {{ end }} read  
 			</p>  
+			{{ if isset .Params "lastmod" }}
+			<p>Last modified: <time>{{ .Params.lastmod.Format "2 January, 2006" }}</time></p>
+			{{ end }}
 			{{ if gt .Params.categories 0 }}
 			<div class="blog_categories">  
 				<label>Categories:</label>
