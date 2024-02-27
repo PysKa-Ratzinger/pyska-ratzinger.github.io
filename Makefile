@@ -14,5 +14,5 @@ serve:
 	cd docs && python3 -m http.server 8080
 
 test:
-	hugo server -D
+	hugo server -D -p 8080
 

@@ -339,3 +339,16 @@ h1.title {
 	display: none;
 }
 
+table, thead, tr, td, th {
+	border-collapse: collapse;
+}
+
+th {
+	background-color: var(--main-color-bg);
+}
+
+td, th {
+	border: 1px solid var(--main-color-bg);
+	padding: .5em;
+}
+
