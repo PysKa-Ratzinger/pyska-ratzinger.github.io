@@ -1,0 +1,49 @@
+
+.root {
+        display: flex;
+        justify-content: center;
+        background-color: slategray;
+}
+
+.border {
+        padding: 5px;
+        background-color: black;
+}
+
+.gameboard {
+        width: 80vw;
+        min-width: 160px;
+        max-width: 320px;
+        min-height: 160px;
+        max-height: 320px;
+        aspect-ratio: 1;
+        display: flex;
+        flex-wrap: wrap;
+}
+
+.square {
+        min-width: 20px;
+        max-width: 40px;
+        min-height: 20px;
+        max-height: 40px;
+        width: 10vw;
+        aspect-ratio: 1;
+}
+
+.color-white {
+        background-color: #aa9;
+}
+
+.color-black {
+        background-color: #801;
+}
+
+.color-white.highlighted {
+        background-color: #f57;
+}
+
+.color-black.highlighted {
+        background-color: #e24;
+}
+
+
