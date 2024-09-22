@@ -10,6 +10,7 @@ export class Board {
                 this.check = undefined
                 this.move_history = JSON.parse(JSON.stringify(move_history))
                 this.mustRedraw = false
+                this.possibleMoves = new Set()
 
                 for (let row = 0; row < 8; row++) {
                         for (let col = 0; col < 8; col++) {

@@ -39,6 +39,22 @@
         background-color: #801;
 }
 
+.color-white.highlighted.previousMove {
+        background-color: #a7f;
+}
+
+.color-black.highlighted.previousMove {
+        background-color: #96e;
+}
+
+.color-white.previousMove {
+        background-color: #75c;
+}
+
+.color-black.previousMove {
+        background-color: #63c;
+}
+
 .color-white.highlighted {
         background-color: #f57;
 }
@@ -46,5 +62,4 @@
 .color-black.highlighted {
         background-color: #e24;
 }
-
 

@@ -3,6 +3,7 @@
 import utils from './utils.js';
 import Board from './board.js';
 import AIPlayer from './ai.js';
+import Vec from './vec.js';
 
 export class Game {
         constructor() {
@@ -60,10 +61,10 @@ export class Game {
 
                 this.board = new Board()
 
-                this.beingDragged = false
                 this.startPositionId = undefined
                 this.draggedElement = undefined
-
+                this.clickedPositionId = undefined
+                this.clickedPiece = undefined
                 this.on_redraw = undefined
 
                 this.ai_player = new AIPlayer("black", 2)
@@ -103,7 +104,10 @@ export class Game {
         }
 
         onRedraw(cb) {
-                this.on_redraw = cb
+                this.on_redraw = () => {
+                        cb()
+                        this.resetHighlights()
+                }
         }
 
         draw() {
@@ -156,12 +160,14 @@ export class Game {
                 allPieces.forEach(piece => {
                         piece.addEventListener('dragstart', (e) => { this.onDragStart(e) })
                         piece.addEventListener('drop', (e) => { this.onDragDropPiece(e) })
+                        piece.addEventListener('click', (e) => { this.onClickPiece(e) })
                 })
 
                 const allSquares = document.querySelectorAll(".gameboard div.square")
                 allSquares.forEach(square => {
                         square.addEventListener('dragover', (e) => { this.onDragOver(e) })
                         square.addEventListener('drop', (e) => { this.onDragDropSquare(e) })
+                        square.addEventListener('click', (e) => { this.onClickSquare(e) })
                 })
         }
 
@@ -171,7 +177,11 @@ export class Game {
 
         highlightPossibleMoves() {
                 const allSquares = document.querySelectorAll(".gameboard div.square")
-                const allPossibleMoves = this.board.getPossibleMoves(this.startPositionId)
+                const posId = this.startPositionId !== undefined ? this.startPositionId : this.clickedPositionId
+                if (posId === undefined) {
+                        return
+                }
+                const allPossibleMoves = this.board.getPossibleMoves(posId)
                 allSquares.forEach(square => {
                         let square_id = square.getAttribute("square-id")
                         let isContained = false
@@ -187,10 +197,24 @@ export class Game {
                 })
         }
 
-        stopHighlights() {
+        resetHighlights() {
                 const allSquares = document.querySelectorAll(".gameboard div.square")
+                let lastMove = undefined
+                if (this.board.move_history.length > 0) {
+                        lastMove = this.board.move_history[this.board.move_history.length - 1]
+                        lastMove = [
+                                this.board.getIdx(new Vec(lastMove[0], lastMove[1])),
+                                this.board.getIdx(new Vec(lastMove[2], lastMove[3]))
+                        ]
+                }
                 allSquares.forEach(square => {
                         square.classList.remove("highlighted")
+                        if (lastMove) {
+                                let square_id = square.getAttribute("square-id")
+                                if (square_id == lastMove[0] || square_id == lastMove[1]) {
+                                        square.classList.add("previousMove")
+                                }
+                        }
                 })
         }
 
@@ -204,10 +228,12 @@ export class Game {
         }
 
         onDragStart(e) {
-                this.beingDragged = true
+                this.clickedPositionId = undefined
+                this.clickedPiece = undefined
                 this.startPositionId = e.target.parentNode.getAttribute("square-id")
                 this.draggedElement = e.target
 
+                this.resetHighlights()
                 this.highlightPossibleMoves()
         }
 
@@ -216,7 +242,7 @@ export class Game {
         }
 
         endOfMove() {
-                this.stopHighlights()
+                this.resetHighlights()
                 this.checkRedraw()
                 if (!this.board.isGameOver() && this.board.turn == this.ai_player.color) {
 
@@ -224,7 +250,7 @@ export class Game {
                                 this.ai_player.move(this.board)
                                 this.on_redraw()
                                 this.board.mustRedraw = false
-                        }, 50)
+                        }, 100)
                 }
         }
 
@@ -233,11 +259,16 @@ export class Game {
                 if (this.board.turn == this.ai_player.color) {
                         return;
                 }
-                this.endPositionId = e.target.parentNode.getAttribute("square-id")
-                if (this.move(this.startPositionId, this.endPositionId)) {
+                if (this.startPositionId === undefined) {
+                        return;
+                }
+                let endPositionId = e.target.parentNode.getAttribute("square-id")
+                if (this.move(this.startPositionId, endPositionId)) {
                         e.target.parentNode.append(this.draggedElement)
                         e.target.remove()
                 }
+                this.startPositionId = undefined
+                this.draggedElement = undefined
                 this.endOfMove()
         }
 
@@ -246,10 +277,68 @@ export class Game {
                 if (this.board.turn == this.ai_player.color) {
                         return;
                 }
-                this.endPositionId = e.target.getAttribute("square-id")
-                if (this.move(this.startPositionId, this.endPositionId)) {
+                if (this.startPositionId === undefined) {
+                        return;
+                }
+                let endPositionId = e.target.getAttribute("square-id")
+                if (this.move(this.startPositionId, endPositionId)) {
                         e.target.append(this.draggedElement)
                 }
+                this.startPositionId = undefined
+                this.draggedElement = undefined
+                this.endOfMove()
+        }
+
+        onClickPiece(e) {
+                e.stopPropagation()
+                console.log("Clicked Piece")
+                this.startPositionId = undefined
+                this.draggedElement = undefined
+
+                let moved = false
+
+                if (!this.clickedPiece) {
+                        this.clickedPositionId = e.target.parentNode.getAttribute("square-id")
+                        this.clickedPiece = e.target
+                } else {
+                        let endPositionId = e.target.parentNode.getAttribute("square-id")
+                        if (endPositionId != this.clickedPositionId) {
+                                if (this.move(this.clickedPositionId, endPositionId)) {
+                                        e.target.parentNode.append(this.clickedPiece)
+                                        e.target.remove()
+                                        moved = true
+                                }
+                                this.clickedPositionId = endPositionId
+                                this.clickedPiece = e.target
+                        } else {
+                                this.clickedPositionId = undefined
+                                this.clickedPiece = undefined
+                        }
+                }
+
+                this.resetHighlights()
+                this.highlightPossibleMoves()
+                if (moved) {
+                        this.endOfMove()
+                }
+        }
+
+        onClickSquare(e) {
+                e.stopPropagation()
+                this.resetHighlights()
+                console.log("Clicked Square")
+                if (!this.clickedPiece) {
+                        return;
+                }
+
+                let endPositionId = e.target.getAttribute("square-id")
+                if (this.move(this.clickedPositionId, endPositionId)) {
+                        e.target.append(this.clickedPiece)
+                }
+
+                this.clickedPositionId = undefined
+                this.clickedPiece = undefined
+                this.resetHighlights()
                 this.endOfMove()
         }
 }

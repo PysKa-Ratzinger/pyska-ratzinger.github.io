@@ -354,7 +354,11 @@ export class King extends Piece {
         canMove(start, delta, board) {
                 if ((delta.y == 2 || delta.y == -2) && delta.x == 0) {
                         if (this.has_moved) {
-                                return false
+                                return false;
+                        }
+
+                        if (board.isSquareAttacked(start, this.color)) {
+                                return false;
                         }
 
                         // Check castling
