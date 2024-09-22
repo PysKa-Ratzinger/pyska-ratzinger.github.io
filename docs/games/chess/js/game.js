@@ -56,7 +56,7 @@ export class Game {
                         "tatiana",
                 ]
 
-                this.theme = "horsey"
+                this.theme = "fresca"
 
                 this.board = new Board()
 
