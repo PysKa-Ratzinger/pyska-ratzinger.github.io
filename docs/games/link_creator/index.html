@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Link Creator</title>
+	</head>
+	<body>
+		<h1>Link Creator</h1>
+
+		<input type="text" id="linkInput" placeholder="Enter link here">
+		<button onclick="createLink()">Create Link</button>
+
+		<script>
+			function createLink() {
+				const linkInput = document.getElementById('linkInput');
+				const linkText = linkInput.value;
+
+				console.log(linkText);
+
+				if (linkText.trim() === '') {
+					alert("Please enter a link.");
+					return;
+				}
+
+				const newLink = document.createElement("a");
+				newLink.href = linkText;
+				newLink.textContent = linkText;
+
+				document.body.appendChild(newLink);
+				document.body.appendChild(document.createElement("br"));
+			}
+		</script>
+	</body>
+</html>
