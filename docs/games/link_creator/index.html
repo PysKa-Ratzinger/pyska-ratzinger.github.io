@@ -1,34 +1,53 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Link Creator</title>
-	</head>
-	<body>
-		<h1>Link Creator</h1>
 
-		<input type="text" id="linkInput" placeholder="Enter link here">
-		<button onclick="createLink()">Create Link</button>
+<head>
+	<title>Link Creator</title>
+	<style>
+html {
+	background-color: black;
+	color: #00aa00;
+};
+	</style>
+</head>
 
-		<script>
-			function createLink() {
-				const linkInput = document.getElementById('linkInput');
-				const linkText = linkInput.value;
+<body>
+	<h1>Link Creator</h1>
 
-				console.log(linkText);
+	<input type="text" id="linkInput" placeholder="Enter link here">
+	<div>
+		<input type="checkbox" id="blankTarget" /\>
+		<label>Open in new tab</label>
+	</div>
+	<button onclick="createLink()">Create Link</button>
+	<br>
 
-				if (linkText.trim() === '') {
-					alert("Please enter a link.");
-					return;
-				}
+	<script>
+		function createLink() {
+			const linkInput = document.getElementById('linkInput');
+			const checkboxBlankTarget = document.getElementById('blankTarget');
 
-				const newLink = document.createElement("a");
-				newLink.href = linkText;
-				newLink.target = "_blank"
-				newLink.textContent = linkText;
+			const linkText = linkInput.value;
+			const useBlankTarget = checkboxBlankTarget.checked;
 
-				document.body.appendChild(newLink);
-				document.body.appendChild(document.createElement("br"));
+			console.log(linkText);
+
+			if (linkText.trim() === '') {
+				alert("Please enter a link.");
+				return;
 			}
-		</script>
-	</body>
+
+			const newLink = document.createElement("a");
+			newLink.href = linkText;
+			if (useBlankTarget) {
+				newLink.target = "_blank"
+			}
+			newLink.textContent = linkText;
+
+			document.body.appendChild(newLink);
+			document.body.appendChild(document.createElement("br"));
+		}
+	</script>
+</body>
+
 </html>
