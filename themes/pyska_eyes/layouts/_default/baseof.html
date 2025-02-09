@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
     {{ partial "head.html" . }}
-    <body class="infinitile">
+    <body>
         {{ partial "header.html" . }}
-		<div class="main container">
+		<div class="main">
         {{ block "main" . }}{{ end }}
 		</div>
-		<div class="container">
         {{ partial "footer.html" . }}
-		</div>
     </body>
 </html>

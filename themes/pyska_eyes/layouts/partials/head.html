@@ -4,7 +4,11 @@
 	<title>{{ if not .IsHome }}{{ with .Title }}{{ . }} | {{ end }}{{ end }}{{ .Site.Title }}</title>
 	<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }} ">
 	<link rel="canonical" href="{{ .Permalink }}" />
+
 	{{ template "_internal/opengraph.html" . }}
 	{{ template "_internal/twitter_cards.html" . }}
-	<link rel="stylesheet" href="{{ absURL "css/common.css" }}">
+
+	<link rel="stylesheet" href="{{ absURL "stylesheets/common.css" }}">
+	<link href="https://pvinis.github.io/iosevka-webfont/7.0.2/iosevka.css" rel="stylesheet" />
+	<link rel="icon" href="data:;base64,{{ readFile "static/favicon.ico" | base64Encode }}">
 </head>

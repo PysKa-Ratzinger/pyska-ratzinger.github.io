@@ -22,6 +22,9 @@ disqusShortname = 'pyskaratzinger'
 	show_updated = true
 	showReadTime = true
 
+	[params.meta]
+		favicon = false
+
 	[params.comments]
 		enabled = true
 		engine = "disqus"
@@ -48,6 +51,24 @@ disqusShortname = 'pyskaratzinger'
 	[privacy.youtube]
 		disable = true
 		privacyEnhanced = true
+
+
+[markup]
+	[markup.highlight]
+		anchorLineNos = false
+		codeFences = true
+		guessSyntax = false
+		hl_Lines = ''
+		hl_inline = false
+		lineAnchors = ''
+		lineNoStart = 1
+		lineNos = false
+		lineNumbersInTable = true
+		noClasses = true
+		style = 'gruvbox'
+		tabWidth = 4
+		wrapperClass = 'highlight'
+
 
 [[menu.main]]
 	name = "Home"

@@ -1,48 +1,54 @@
-{{ define "main" }}  
-<div class="container">  
-	<div class="blog_info">  
-		<div class="author-image-container">  
-			<img src="/img/LaughingMan.svg" alt="author-image"/>
-		</div>  
-		<div class="blog_description">
-			<p>By {{ .Site.Author.name }}</p>  
-			<p>Published on: <time>{{ .PublishDate.Format "2 January, 2006" }}</time> |   
-			{{ .ReadingTime }} {{ if eq .ReadingTime 1 }} minute {{ else }} minutes {{ end }} read  
-			</p>  
-			{{ if isset .Params "lastmod" }}
-			<p>Last modified: <time>{{ .Params.lastmod.Format "2 January, 2006" }}</time></p>
-			{{ end }}
-			{{ if gt .Params.categories 0 }}
-			<div class="blog_categories">  
-				<label>Categories:</label>
+{{ define "main" }}
+<div class="blog_info">
+	<div class="blog_description">
+		Published on: <time>{{ .PublishDate.Format "2 January, 2006" }}</time> |
+		{{ .ReadingTime }} {{ if eq .ReadingTime 1 }} minute {{ else }} minutes {{ end }} read
+		<br>
+
+		{{ if gt .Params.categories 0 }}
+		<br>
+		<div class="blog_categories_and_tags">
+			<label>Categories:</label>
+			<label>Tags:</label>
+			<div>
 				{{ range $index, $value := .Params.categories }}
 				{{ if gt $index 0 }}{{ print ", " }}{{ end }}
 				<a class="category-link" href="{{ "/categories/" | relLangURL }}{{ $value | urlize }}">{{ $value }}</a>
 				{{ end }}
-			</div>  
+			</div>
 			{{ end }}
 			{{ if isset .Params "tags" }}
-			<div class="blog_tags">  
-				<label>Tags:</label>
+			<div>
 				{{ range $index, $value := .Params.tags }}
 				{{ if gt $index 0 }}{{ print ", " }}{{ end }}
 				<a class="tag-link" href="{{ "/tags/" | relLangURL }}{{ $value | urlize }}">{{ $value }}</a>
 				{{ end }}
-			</div>  
-			{{ end }}
+			</div>
 		</div>
-	</div>  
+		{{ end }}
+	</div>
+</div>
 
-	<article>  
-		<div class="blog_container">  
-			<div class="blog_details">  
-				<h1 class="title">{{ .Title }}</h1>
-			</div>  
-			<div class="content">  
-				{{ .Content }}  
-			</div>  
-		</div>  
-	</article>  
-	{{- partial "chat.html" . -}}
-</div>  
-{{ end }} 
+<article>
+	<div class="blog_container">
+		<div class="blog_details">
+			<h1>{{ .Title }}</h1>
+		</div>
+		<div class="details">
+			{{ .Content }}
+		</div>
+	</div>
+</article>
+
+<div class="blog_info">
+	<div class="blog_description">
+		By {{ .Site.Author.name }}<br>
+		{{ if isset .Params "lastmod" }}
+		Last modified: <time>{{ .Params.lastmod.Format "2 January, 2006" }}</time><br>
+		{{ end }}
+	</div>
+	<a class="back_to_top" href="#top">Back to top</a>
+</div>
+
+<!-- {{- partial "chat.html" . -}} -->
+{{ end }}

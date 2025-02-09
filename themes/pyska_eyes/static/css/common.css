@@ -13,8 +13,8 @@
 	--main-color-code-dark:  #0a0;
 	--main-color-cyan:       #93f;
 	--main-color-cyan-dark:  #44a;
-	--main-color-title:      #a0f;
-	--main-color-title-dark: #206;
+	--main-color-title:      #eee;
+	--main-color-title-dark: #222;
 }
 
 @keyframes bg-scrolling {

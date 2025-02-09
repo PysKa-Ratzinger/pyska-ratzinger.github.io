@@ -1,19 +1,19 @@
 <header>
 	<div>
-		<div class="container-h main-title charcoal-t-s">
-		<a href="/" title="home">
-			<span class="logo"><h1>{{ .Site.Title }}</h1></span>
-		</a>
+		<div class="main-title">
+			<a href="/" title="home">
+				<span class="logo">
+					<h1>{{ .Site.Title }}</h1>
+				</span>
+			</a>
 		</div>
-		<div class="container-h space-between">
-			<div class="container-h space-between">
-				{{ range .Site.Menus.main }}
-					<div class="button"><a href="{{ .URL }}">{{ .Name }}</a></div>
-				{{ end }}
-				{{ range .Site.Menus.social }}
-					<div class="button ml-6"><a href="{{ .URL }}" title="{{ .Name }}"><span class="icon">{{ .Pre }}</span></a></div>
-				{{ end }}
-			</div>
+		<div id="navbar">
+			{{ range .Site.Menus.main }}
+			<div class="button"><a href="{{ .URL }}">{{ .Name }}</a></div>
+			{{ end }}
+			{{ range .Site.Menus.social }}
+			<div class="button ml-6"><a href="{{ .URL }}" title="{{ .Name }}"><span class="icon">{{ .Pre }}</span></a></div>
+			{{ end }}
 		</div>
 	</div>
 </header>

@@ -1,25 +1,17 @@
-<article class="center">
+<footer>
 	<noscript>
 		Website footer. You currently have javascript disabled.
 	</noscript>
-	<div id="nukeBtn" class="text-center hidden">
-		<div class="button warning"><button>Delete all cookies and remove consent for more cookies.</button></div>
-	</div>
+	<button id="nukeBtn" class="button warning">Delete all cookies</button>
 
 	<dialog id="nukeDialog">
 		<h2>Are you sure you want to delete all cookies?.</h2>
 		<form method="dialog">
 			<p>
-			<label id="nukeLabel">Note: This will also remove every consent for every third-party service you accepted to use.</label>
+				<label id="nukeLabel">Note: This will also remove every consent for every third-party service you accepted to use.</label>
 			</p>
-			<div class="text-center">
-			<div class="button">
-				<button id="cancelBtn">Cancel</button>
-			</div>
-			<div class="button">
-				<button id="confirmBtn">Confirm</button>
-			</div>
-			</div>
+			<button id="cancelBtn">Cancel</button>
+			<button id="confirmBtn">Confirm</button>
 		</form>
 	</dialog>
 
@@ -27,61 +19,11 @@
 		<h2>All cookies have been deleted.</h2>
 		<form method="dialog">
 			<p>
-			The page will now refresh, in order to apply all changes.
+				The page will now refresh, in order to apply all changes.
 			</p>
-			<div class="text-center">
-				<div class="button">
-					<button>Close</button>
-				</div>
-			</div>
+			<button>Close</button>
 		</form>
 	</dialog>
 
-</article>
-
-<script>
-	const nukeBtn = document.getElementById("nukeBtn");
-	const nukeDialog = document.getElementById("nukeDialog");
-	const nuke2Dialog = document.getElementById("nuke2Dialog");
-	const nukeConfirmBtn = nukeDialog.querySelector('#confirmBtn');
-
-	function deleteAllCookies() {
-		var cookies = document.cookie.split("; ");
-		for (var c = 0; c < cookies.length; c++) {
-			var d = window.location.hostname.split(".");
-			while (true) {
-				var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
-				var p = location.pathname.split('/');
-				console.log(cookieBase + '/');
-				document.cookie = cookieBase + '/';
-				while (p.length > 0) {
-					console.log( cookieBase + p.join('/') );
-					document.cookie = cookieBase + p.join('/');
-					p.pop();
-				};
-				if (d.length > 0) {
-					d.shift();
-				} else {
-					break;
-				}
-			}
-		}
-		nuke2Dialog.showModal();
-
-		setTimeout(() => {
-			document.location.reload();
-		}, 3000);
-	}
-
-	nukeBtn.onclick = () => {
-		nukeDialog.showModal();
-	};
-
-	nukeConfirmBtn.onclick = () => {
-		deleteAllCookies();
-	};
-
-	// Show nuke button.
-	nukeBtn.classList.remove("hidden");
-</script>
-
+	<script type="module" src="{{ absURL "js/nukeDialog.js" }}"></script>
+</footer>
