@@ -1,5 +1,193 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hackthebox on PysKa's Writeups</title><link>https://pyska-ratzinger.github.io/tags/hackthebox/</link><description>Recent content in Hackthebox on PysKa's Writeups</description><generator>Hugo</generator><language>en-us</language><managingEditor>ricardojorge512@hotmail.com (PysKa Ratzinger)</managingEditor><webMaster>ricardojorge512@hotmail.com (PysKa Ratzinger)</webMaster><lastBuildDate>Wed, 28 Sep 2022 17:26:13 +0100</lastBuildDate><atom:link href="https://pyska-ratzinger.github.io/tags/hackthebox/index.xml" rel="self" type="application/rss+xml"/><item><title>Hackthebox Redpanda</title><link>https://pyska-ratzinger.github.io/posts/2022-09-24-hackthebox-redpanda/</link><pubDate>Wed, 28 Sep 2022 17:26:13 +0100</pubDate><author>ricardojorge512@hotmail.com (PysKa Ratzinger)</author><guid>https://pyska-ratzinger.github.io/posts/2022-09-24-hackthebox-redpanda/</guid><description>Foothold /etc/hosts Before anything else, I&amp;rsquo;ve added the following lines to my /etc/hosts:
-10.10.11.170	redpanda.htb So now I can use &amp;ldquo;redpanda.htb&amp;rdquo; instead of passing IPs everywhere.
-NMAP A nmap scan of the top 1000 ports gives us: # Nmap 7.93 scan initiated Tue Sep 27 16:59:36 2022 as: nmap -Pn -sS -A -p1-65535 -O -oN nmap_tcp_all.txt -vvvv redpanda.htb Nmap scan report for redpanda.htb (10.10.11.170) Host is up, received user-set (0.048s latency).</description></item><item><title>Hackthebox Shoppy</title><link>https://pyska-ratzinger.github.io/posts/2022-09-24-hackthebox-shoppy/</link><pubDate>Sat, 24 Sep 2022 20:01:54 +0100</pubDate><author>ricardojorge512@hotmail.com (PysKa Ratzinger)</author><guid>https://pyska-ratzinger.github.io/posts/2022-09-24-hackthebox-shoppy/</guid><description>Foothold /etc/hosts Before anything else, I&amp;rsquo;ve added the following lines to my /etc/hosts:
-10.10.11.180	shoppy.htb So now I can use &amp;ldquo;shoppy.htb&amp;rdquo; instead of passing IPs everywhere.
-NMAP A nmap scan of the top 1000 ports gives us: # Nmap 7.93 scan initiated Fri Sep 23 19:28:02 2022 as: nmap -Pn -sS -A --top-ports 1000 -O -oN nmap_tcp_top_1000.txt -vvvv shoppy.htb Nmap scan report for shoppy.htb (10.10.11.180) Host is up, received user-set (0.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hackthebox on PysKa's Writeups</title><link>https://pyska-ratzinger.github.io/tags/hackthebox/</link><description>Recent content in Hackthebox on PysKa's Writeups</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 28 Sep 2022 17:26:13 +0100</lastBuildDate><atom:link href="https://pyska-ratzinger.github.io/tags/hackthebox/index.xml" rel="self" type="application/rss+xml"/><item><title>Hackthebox Redpanda</title><link>https://pyska-ratzinger.github.io/posts/2022-09-24-hackthebox-redpanda/</link><pubDate>Wed, 28 Sep 2022 17:26:13 +0100</pubDate><guid>https://pyska-ratzinger.github.io/posts/2022-09-24-hackthebox-redpanda/</guid><description>&lt;h2 id="foothold">Foothold&lt;/h2>
+&lt;h3 id="etchosts">/etc/hosts&lt;/h3>
+&lt;p>Before anything else, I&amp;rsquo;ve added the following lines to my /etc/hosts:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#ebdbb2;background-color:#282828;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-plaintext" data-lang="plaintext">&lt;span style="display:flex;">&lt;span>10.10.11.170	redpanda.htb&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>So now I can use &amp;ldquo;redpanda.htb&amp;rdquo; instead of passing IPs everywhere.&lt;/p>
+&lt;h3 id="nmap">NMAP&lt;/h3>
+&lt;p>A nmap scan of the top 1000 ports gives us:
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#ebdbb2;background-color:#282828;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-plaintext" data-lang="plaintext">&lt;span style="display:flex;">&lt;span># Nmap 7.93 scan initiated Tue Sep 27 16:59:36 2022 as: nmap -Pn -sS -A -p1-65535 -O -oN nmap_tcp_all.txt -vvvv redpanda.htb
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Nmap scan report for redpanda.htb (10.10.11.170)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Host is up, received user-set (0.048s latency).
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Scanned at 2022-09-27 16:59:36 WEST for 65s
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Not shown: 65533 closed tcp ports (reset)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PORT STATE SERVICE REASON VERSION
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>22/tcp open ssh syn-ack ttl 63 OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| ssh-hostkey: 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| 3072 48add5b83a9fbcbef7e8201ef6bfdeae (RSA)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC82vTuN1hMqiqUfN+Lwih4g8rSJjaMjDQdhfdT8vEQ67urtQIyPszlNtkCDn6MNcBfibD/7Zz4r8lr1iNe/Afk6LJqTt3OWewzS2a1TpCrEbvoileYAl/Feya5PfbZ8mv77+MWEA+kT0pAw1xW9bpkhYCGkJQm9OYdcsEEg1i+kQ/ng3+GaFrGJjxqYaW1LXyXN1f7j9xG2f27rKEZoRO/9HOH9Y+5ru184QQXjW/ir+lEJ7xTwQA5U1GOW1m/AgpHIfI5j9aDfT/r4QMe+au+2yPotnOGBBJBz3ef+fQzj/Cq7OGRR96ZBfJ3i00B/Waw/RI19qd7+ybNXF/gBzptEYXujySQZSu92Dwi23itxJBolE6hpQ2uYVA8VBlF0KXESt3ZJVWSAsU3oguNCXtY7krjqPe6BZRy+lrbeska1bIGPZrqLEgptpKhz14UaOcH9/vpMYFdSKr24aMXvZBDK1GJg50yihZx8I9I367z0my8E89+TnjGFY2QTzxmbmU=
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| 256 b7896c0b20ed49b2c1867c2992741c1f (ECDSA)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBH2y17GUe6keBxOcBGNkWsliFwTRwUtQB3NXEhTAFLziGDfCgBV7B9Hp6GQMPGQXqMk7nnveA8vUz0D7ug5n04A=
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| 256 18cd9d08a621a8b8b6f79f8d405154fb (ED25519)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKfXa+OM5/utlol5mJajysEsV4zb/L0BJ1lKxMPadPvR
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>8080/tcp open http-proxy syn-ack ttl 63
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| http-methods: 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>|_ Supported Methods: GET HEAD OPTIONS
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>|_http-open-proxy: Proxy might be redirecting requests
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| fingerprint-strings: 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| GetRequest: 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| HTTP/1.1 200 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Content-Type: text/html;charset=UTF-8
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Content-Language: en-US
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Date: Tue, 27 Sep 2022 15:59:27 GMT
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Connection: close
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;!DOCTYPE html&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;html lang=&amp;#34;en&amp;#34; dir=&amp;#34;ltr&amp;#34;&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;head&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;meta charset=&amp;#34;utf-8&amp;#34;&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;meta author=&amp;#34;wooden_k&amp;#34;&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;!--Codepen by khr2003: https://codepen.io/khr2003/pen/BGZdXw --&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;link rel=&amp;#34;stylesheet&amp;#34; href=&amp;#34;css/panda.css&amp;#34; type=&amp;#34;text/css&amp;#34;&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;link rel=&amp;#34;stylesheet&amp;#34; href=&amp;#34;css/main.css&amp;#34; type=&amp;#34;text/css&amp;#34;&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;title&amp;gt;Red Panda Search | Made with Spring Boot&amp;lt;/title&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;/head&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;body&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;div class=&amp;#39;pande&amp;#39;&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;div class=&amp;#39;ear left&amp;#39;&amp;gt;&amp;lt;/div&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;div class=&amp;#39;ear right&amp;#39;&amp;gt;&amp;lt;/div&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;div class=&amp;#39;whiskers left&amp;#39;&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;/div&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;div class=&amp;#39;whiskers right&amp;#39;&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;/div&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;div class=&amp;#39;face&amp;#39;&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;div class=&amp;#39;eye
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| HTTPOptions: 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| HTTP/1.1 200 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Allow: GET,HEAD,OPTIONS
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Content-Length: 0
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Date: Tue, 27 Sep 2022 15:59:27 GMT
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Connection: close
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| RTSPRequest: 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| HTTP/1.1 400 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Content-Type: text/html;charset=utf-8
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Content-Language: en
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Content-Length: 435
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Date: Tue, 27 Sep 2022 15:59:27 GMT
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Connection: close
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| &amp;lt;!doctype html&amp;gt;&amp;lt;html lang=&amp;#34;en&amp;#34;&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;HTTP Status 400 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| Request&amp;lt;/title&amp;gt;&amp;lt;style type=&amp;#34;text/css&amp;#34;&amp;gt;body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}&amp;lt;/style&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;HTTP Status 400 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>|_ Request&amp;lt;/h1&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>|_http-title: Red Panda Search | Made with Spring Boot
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF-Port8080-TCP:V=7.93%I=7%D=9/27%Time=63331E13%P=x86_64-pc-linux-gnu%r(Ge
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:tRequest,690,&amp;#34;HTTP/1\.1\x20200\x20\r\nContent-Type:\x20text/html;charse
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:t=UTF-8\r\nContent-Language:\x20en-US\r\nDate:\x20Tue,\x2027\x20Sep\x20
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:2022\x2015:59:27\x20GMT\r\nConnection:\x20close\r\n\r\n&amp;lt;!DOCTYPE\x20htm
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:l&amp;gt;\n&amp;lt;html\x20lang=\&amp;#34;en\&amp;#34;\x20dir=\&amp;#34;ltr\&amp;#34;&amp;gt;\n\x20\x20&amp;lt;head&amp;gt;\n\x20\x20\x20\
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:x20&amp;lt;meta\x20charset=\&amp;#34;utf-8\&amp;#34;&amp;gt;\n\x20\x20\x20\x20&amp;lt;meta\x20author=\&amp;#34;woode
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:n_k\&amp;#34;&amp;gt;\n\x20\x20\x20\x20&amp;lt;!--Codepen\x20by\x20khr2003:\x20https://codepe
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:n\.io/khr2003/pen/BGZdXw\x20--&amp;gt;\n\x20\x20\x20\x20&amp;lt;link\x20rel=\&amp;#34;stylesh
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:eet\&amp;#34;\x20href=\&amp;#34;css/panda\.css\&amp;#34;\x20type=\&amp;#34;text/css\&amp;#34;&amp;gt;\n\x20\x20\x20\x2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:0&amp;lt;link\x20rel=\&amp;#34;stylesheet\&amp;#34;\x20href=\&amp;#34;css/main\.css\&amp;#34;\x20type=\&amp;#34;text/c
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:ss\&amp;#34;&amp;gt;\n\x20\x20\x20\x20&amp;lt;title&amp;gt;Red\x20Panda\x20Search\x20\|\x20Made\x20w
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:ith\x20Spring\x20Boot&amp;lt;/title&amp;gt;\n\x20\x20&amp;lt;/head&amp;gt;\n\x20\x20&amp;lt;body&amp;gt;\n\n\x20\
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:x20\x20\x20&amp;lt;div\x20class=&amp;#39;pande&amp;#39;&amp;gt;\n\x20\x20\x20\x20\x20\x20&amp;lt;div\x20clas
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:s=&amp;#39;ear\x20left&amp;#39;&amp;gt;&amp;lt;/div&amp;gt;\n\x20\x20\x20\x20\x20\x20&amp;lt;div\x20class=&amp;#39;ear\x20r
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:ight&amp;#39;&amp;gt;&amp;lt;/div&amp;gt;\n\x20\x20\x20\x20\x20\x20&amp;lt;div\x20class=&amp;#39;whiskers\x20left&amp;#39;&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20&amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;\n\x20\x20\x20\x
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:20\x20\x20\x20\x20\x20\x20&amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;\n\x20\x20\x20\x20\x20\x20\x20\x
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:20\x20\x20&amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;\n\x20\x20\x20\x20\x20\x20&amp;lt;/div&amp;gt;\n\x20\x20\x20\x
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:20\x20\x20&amp;lt;div\x20class=&amp;#39;whiskers\x20right&amp;#39;&amp;gt;\n\x20\x20\x20\x20\x20\x20\
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:x20\x20&amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;\n\x20\x20\x20\x20\x20\x20\x20\x20&amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;\n\x
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:20\x20\x20\x20\x20\x20\x20\x20&amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;\n\x20\x20\x20\x20\x20\x20&amp;lt;/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:div&amp;gt;\n\x20\x20\x20\x20\x20\x20&amp;lt;div\x20class=&amp;#39;face&amp;#39;&amp;gt;\n\x20\x20\x20\x20\x
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:20\x20\x20\x20&amp;lt;div\x20class=&amp;#39;eye&amp;#34;)%r(HTTPOptions,75,&amp;#34;HTTP/1\.1\x20200\x
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:20\r\nAllow:\x20GET,HEAD,OPTIONS\r\nContent-Length:\x200\r\nDate:\x20Tu
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:e,\x2027\x20Sep\x202022\x2015:59:27\x20GMT\r\nConnection:\x20close\r\n\
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:r\n&amp;#34;)%r(RTSPRequest,24E,&amp;#34;HTTP/1\.1\x20400\x20\r\nContent-Type:\x20text/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:html;charset=utf-8\r\nContent-Language:\x20en\r\nContent-Length:\x20435
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:\r\nDate:\x20Tue,\x2027\x20Sep\x202022\x2015:59:27\x20GMT\r\nConnection
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF::\x20close\r\n\r\n&amp;lt;!doctype\x20html&amp;gt;&amp;lt;html\x20lang=\&amp;#34;en\&amp;#34;&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;H
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:TTP\x20Status\x20400\x20\xe2\x80\x93\x20Bad\x20Request&amp;lt;/title&amp;gt;&amp;lt;style\x2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:0type=\&amp;#34;text/css\&amp;#34;&amp;gt;body\x20{font-family:Tahoma,Arial,sans-serif;}\x20h1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:,\x20h2,\x20h3,\x20b\x20{color:white;background-color:#525D76;}\x20h1\x
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:20{font-size:22px;}\x20h2\x20{font-size:16px;}\x20h3\x20{font-size:14px
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:;}\x20p\x20{font-size:12px;}\x20a\x20{color:black;}\x20\.line\x20{heigh
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:t:1px;background-color:#525D76;border:none;}&amp;lt;/style&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;HT
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:TP\x20Status\x20400\x20\xe2\x80\x93\x20Bad\x20Request&amp;lt;/h1&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SF:&amp;gt;&amp;#34;);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TCP/IP fingerprint:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:SCAN(V=7.93%E=4%D=9/27%OT=22%CT=1%CU=39692%PV=Y%DS=2%DC=T%G=Y%TM=63331E2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:9%P=x86_64-pc-linux-gnu)SEQ(SP=102%GCD=1%ISR=108%TI=Z%CI=Z%II=I%TS=A)OPS
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:(O1=M54DST11NW7%O2=M54DST11NW7%O3=M54DNNT11NW7%O4=M54DST11NW7%O5=M54DST1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:1NW7%O6=M54DST11)WIN(W1=FE88%W2=FE88%W3=FE88%W4=FE88%W5=FE88%W6=FE88)ECN
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:(R=Y%DF=Y%T=40%W=FAF0%O=M54DNNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:=S)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Uptime guess: 26.772 days (since Wed Aug 31 22:29:29 2022)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Network Distance: 2 hops
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TCP Sequence Prediction: Difficulty=258 (Good luck!)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>IP ID Sequence Generation: All zeros
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TRACEROUTE (using port 1723/tcp)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>HOP RTT ADDRESS
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>1 47.61 ms 10.10.14.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>2 48.53 ms redpanda.htb (10.10.11.170)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Read data files from: /usr/bin/../share/nmap
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span># Nmap done at Tue Sep 27 17:00:41 2022 -- 1 IP address (1 host up) scanned in 65.30 seconds&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/p></description></item><item><title>Hackthebox Shoppy</title><link>https://pyska-ratzinger.github.io/posts/2022-09-24-hackthebox-shoppy/</link><pubDate>Sat, 24 Sep 2022 20:01:54 +0100</pubDate><guid>https://pyska-ratzinger.github.io/posts/2022-09-24-hackthebox-shoppy/</guid><description>&lt;h2 id="foothold">Foothold&lt;/h2>
+&lt;h3 id="etchosts">/etc/hosts&lt;/h3>
+&lt;p>Before anything else, I&amp;rsquo;ve added the following lines to my /etc/hosts:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#ebdbb2;background-color:#282828;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-plaintext" data-lang="plaintext">&lt;span style="display:flex;">&lt;span>10.10.11.180	shoppy.htb&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>So now I can use &amp;ldquo;shoppy.htb&amp;rdquo; instead of passing IPs everywhere.&lt;/p>
+&lt;h3 id="nmap">NMAP&lt;/h3>
+&lt;p>A nmap scan of the top 1000 ports gives us:
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#ebdbb2;background-color:#282828;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-plaintext" data-lang="plaintext">&lt;span style="display:flex;">&lt;span># Nmap 7.93 scan initiated Fri Sep 23 19:28:02 2022 as: nmap -Pn -sS -A --top-ports 1000 -O -oN nmap_tcp_top_1000.txt -vvvv shoppy.htb
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Nmap scan report for shoppy.htb (10.10.11.180)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Host is up, received user-set (0.047s latency).
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Scanned at 2022-09-23 19:28:03 WEST for 25s
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Not shown: 998 closed tcp ports (reset)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PORT STATE SERVICE REASON VERSION
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>22/tcp open ssh syn-ack ttl 63 OpenSSH 8.4p1 Debian 5+deb11u1 (protocol 2.0)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| ssh-hostkey: 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| 3072 9e5e8351d99f89ea471a12eb81f922c0 (RSA)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDApZi3Kltv1yDHTatw6pKZfuIcoHfTnVe0W1yc9Uw7NMUinxjjQaQ731J+eCTwd8hBcZT6HQwcchDNR50Lwyp2a/KpXuH2my+2/tDvISTRTgwfMy1sDrG3+KPEzBag07m7ycshp8KhrRq0faHPrEgcagkb5T8mnT6zr3YonzoMyIpT+Q1O0JAre6GPgJc9im/tjaqhwUxCH5MxJCKQxaUf2SlGjRCH5/xEkNO20BEUYokjoAWwHUWjK2mlIrBQfd4/lcUzMnc5WT9pVBqQBw+/7LbFRyH4TLmGT9PPEr8D8iygWYpuG7WFOZlU8oOhO0+uBqZFgJFFOevq+42q42BvYYR/z+mFox+Q2lz7viSCV7nBMdcWto6USWLrx1AkVXNGeuRjr3l0r/698sQjDy5v0GnU9cMHeYkMc+TuiIaJJ5oRrSg/x53Xin1UogTnTaKLNdGkgynMqyVFklvdnUngRSLsXnwYNgcDrUhXxsfpDu8HVnzerT3q27679+n5ZFM=
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| 256 5857eeeb0650037c8463d7a3415b1ad5 (ECDSA)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHiKrH/B/4murRCo5ju2KuPgkMjQN3Foh7EifMHEOwmoDNjLYBfoAFKgBnrMA9GzA+NGhHVa6L8CAxN3eaGXXMo=
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| 256 3e9d0a4290443860b3b62ce9bd9a6754 (ED25519)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBRsWhJQCRHjDkHy3HkFLMZoGqCmM3/VfMHMm56u0Ivk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>80/tcp open http syn-ack ttl 63 nginx 1.23.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>|_http-server-header: nginx/1.23.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>|_http-title: Shoppy Wait Page 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| http-methods: 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>|_ Supported Methods: GET HEAD POST OPTIONS
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>|_http-favicon: Unknown favicon MD5: D5F0A0ADD0BFBB2BC51607F78ECE2F57
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TCP/IP fingerprint:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:SCAN(V=7.93%E=4%D=9/23%OT=22%CT=1%CU=41511%PV=Y%DS=2%DC=T%G=Y%TM=632DFAC
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:C%P=x86_64-pc-linux-gnu)SEQ(SP=103%GCD=1%ISR=108%TI=Z%CI=Z%II=I%TS=A)OPS
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:(O1=M54DST11NW7%O2=M54DST11NW7%O3=M54DNNT11NW7%O4=M54DST11NW7%O5=M54DST1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:1NW7%O6=M54DST11)WIN(W1=FE88%W2=FE88%W3=FE88%W4=FE88%W5=FE88%W6=FE88)ECN
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:(R=Y%DF=Y%T=40%W=FAF0%O=M54DNNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=A
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:S%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)U1(R=N)IE(R=Y%DFI=N%
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS:T=40%CD=S)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Uptime guess: 41.686 days (since Sat Aug 13 03:00:33 2022)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Network Distance: 2 hops
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TCP Sequence Prediction: Difficulty=259 (Good luck!)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>IP ID Sequence Generation: All zeros
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TRACEROUTE (using port 111/tcp)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>HOP RTT ADDRESS
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>1 46.74 ms 10.10.14.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>2 47.11 ms shoppy.htb (10.10.11.180)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Read data files from: /usr/bin/../share/nmap
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span># Nmap done at Fri Sep 23 19:28:28 2022 -- 1 IP address (1 host up) scanned in 26.26 seconds&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/p></description></item></channel></rss>

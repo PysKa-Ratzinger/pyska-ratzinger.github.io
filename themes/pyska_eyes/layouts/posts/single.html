@@ -13,7 +13,7 @@
 			<div>
 				{{ range $index, $value := .Params.categories }}
 				{{ if gt $index 0 }}{{ print ", " }}{{ end }}
-				<a class="category-link" href="{{ "/categories/" | relLangURL }}{{ $value | urlize }}">{{ $value }}</a>
+				<a class="category-link" href="{{ "categories/" | relLangURL }}{{ $value | urlize }}">{{ $value }}</a>
 				{{ end }}
 			</div>
 			{{ end }}
@@ -21,7 +21,7 @@
 			<div>
 				{{ range $index, $value := .Params.tags }}
 				{{ if gt $index 0 }}{{ print ", " }}{{ end }}
-				<a class="tag-link" href="{{ "/tags/" | relLangURL }}{{ $value | urlize }}">{{ $value }}</a>
+				<a class="tag-link" href="{{ "tags/" | relLangURL }}{{ $value | urlize }}">{{ $value }}</a>
 				{{ end }}
 			</div>
 		</div>
@@ -31,18 +31,20 @@
 
 <article>
 	<div class="blog_container">
-		<div class="blog_details">
+		<div id="article_title" class="blog_details">
 			<h1>{{ .Title }}</h1>
 		</div>
-		<div class="details">
+		<div id="article_content" class="details">
 			{{ .Content }}
 		</div>
 	</div>
 </article>
 
+<div id="interruptionSnackbar">Experiencing interruptions? <button id="interruptionFindOutBtn">Find out why.</button></div>
+
 <div class="blog_info">
 	<div class="blog_description">
-		By {{ .Site.Author.name }}<br>
+		By {{ .Site.Params.Author.name }}<br>
 		{{ if isset .Params "lastmod" }}
 		Last modified: <time>{{ .Params.lastmod.Format "2 January, 2006" }}</time><br>
 		{{ end }}

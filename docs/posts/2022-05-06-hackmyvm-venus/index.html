@@ -1,7 +1,392 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><title>HackMyVM Venus (challenge) | PysKa's Writeups</title>
-<meta name=description content="Mission 0x01 hacker@venus:~$ ls -lhatr total 44K -rw-r--r-- 1 hacker hacker 807 Aug 4 2021 .profile -rw-r--r-- 1 hacker hacker 3.5K Aug 4 2021 .bashrc -rw-r----- 1 root hacker 2.5K Apr 7 05:55 readme.txt -rw-r----- 1 root hacker 287 Apr 7 05:55 mission.txt -rw-r----- 1 root hacker 16 Apr 7 05:55 .myhiddenpazz drwxr-xr-x 1 root root 4.0K Apr 7 05:55 .. -rw-r----- 1 root hacker 31 Apr 7 06:00 ... -rw-r--r-- 1 root root 0 Apr 8 18:33 . "><link rel=canonical href=https://pyska-ratzinger.github.io/posts/2022-05-06-hackmyvm-venus/><meta property="og:url" content="https://pyska-ratzinger.github.io/posts/2022-05-06-hackmyvm-venus/"><meta property="og:site_name" content="PysKa's Writeups"><meta property="og:title" content="HackMyVM Venus (challenge)"><meta property="og:description" content="Mission 0x01 hacker@venus:~$ ls -lhatr total 44K -rw-r--r-- 1 hacker hacker 807 Aug 4 2021 .profile -rw-r--r-- 1 hacker hacker 3.5K Aug 4 2021 .bashrc -rw-r----- 1 root hacker 2.5K Apr 7 05:55 readme.txt -rw-r----- 1 root hacker 287 Apr 7 05:55 mission.txt -rw-r----- 1 root hacker 16 Apr 7 05:55 .myhiddenpazz drwxr-xr-x 1 root root 4.0K Apr 7 05:55 .. -rw-r----- 1 root hacker 31 Apr 7 06:00 ... -rw-r--r-- 1 root root 0 Apr 8 18:33 ."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-05-06T18:23:17+01:00"><meta property="article:modified_time" content="2022-05-06T18:23:17+01:00"><meta property="article:tag" content="Hackmyvm"><meta name=twitter:card content="summary"><meta name=twitter:title content="HackMyVM Venus (challenge)"><meta name=twitter:description content="Mission 0x01 hacker@venus:~$ ls -lhatr total 44K -rw-r--r-- 1 hacker hacker 807 Aug 4 2021 .profile -rw-r--r-- 1 hacker hacker 3.5K Aug 4 2021 .bashrc -rw-r----- 1 root hacker 2.5K Apr 7 05:55 readme.txt -rw-r----- 1 root hacker 287 Apr 7 05:55 mission.txt -rw-r----- 1 root hacker 16 Apr 7 05:55 .myhiddenpazz drwxr-xr-x 1 root root 4.0K Apr 7 05:55 .. -rw-r----- 1 root hacker 31 Apr 7 06:00 ... -rw-r--r-- 1 root root 0 Apr 8 18:33 ."><link rel=stylesheet href=https://pyska-ratzinger.github.io/stylesheets/common.css><link href=https://pvinis.github.io/iosevka-webfont/7.0.2/iosevka.css rel=stylesheet><link rel=icon href="data:;base64,AAABAAEAPDwAAAEAIABIOgAAFgAAACgAAAA8AAAAeAAAAAEAIAAAAAAAQDgAAAAAAAAAAAAAAAAAAAAAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="></head><body><header><div><div class=main-title><a href=/ title=home><span class=logo><h1>PysKa's Writeups</h1></span></a></div><div id=navbar><div class=button><a href=/>Home</a></div><div class=button><a href=/posts>All posts</a></div><div class=button><a href=/categories>Categories</a></div><div class=button><a href=/tags>Tags</a></div><div class=button><a href=/about>About</a></div><div class="button ml-6"><a href=https://github.com/PysKa-Ratzinger/ title=GitHub><span class=icon><i class='fab fa-github'>Github</i></span></a></div></div></div></header><div class=main><div class=blog_info><div class=blog_description>Published on: <time>6 May, 2022</time> |
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><title>HackMyVM Venus (challenge) | PysKa's Writeups</title><meta name=description content='Mission 0x01
+hacker@venus:~$ ls -lhatr
+total 44K
+-rw-r--r-- 1 hacker hacker  807 Aug  4  2021 .profile
+-rw-r--r-- 1 hacker hacker 3.5K Aug  4  2021 .bashrc
+-rw-r----- 1 root   hacker 2.5K Apr  7 05:55 readme.txt
+-rw-r----- 1 root   hacker  287 Apr  7 05:55 mission.txt
+-rw-r----- 1 root   hacker   16 Apr  7 05:55 .myhiddenpazz
+drwxr-xr-x 1 root   root   4.0K Apr  7 05:55 ..
+-rw-r----- 1 root   hacker   31 Apr  7 06:00 ...
+-rw-r--r-- 1 root   root      0 Apr  8 18:33 .hushlogin
+drwxr-x--- 1 root   hacker 4.0K Apr  8 18:33 .
+-rwxr-xr-x 1 hacker hacker  220 Apr 17 23:44 .bash_logout
+hacker@venus:~$ cat mission.txt
+################
+# MISSION 0x01 #
+################
+
+## EN ##
+User sophia has saved her password in a hidden file in this folder. Find it and log in as sophia.
+
+## ES ##
+La usuaria sophia ha guardado su contraseña en un fichero oculto en esta carpeta.Encuentralo y logueate como sophia.
+hacker@venus:~$ cat .myhiddenpazz
+Y1o645M3mR84ejc
+hacker@venus:~$ su sophia
+Password:
+sophia@venus:/pwned/hacker$ cd $HOME
+sophia@venus:~$
+Mission 0x02
+sophia@venus:~$ cat mission.txt
+################
+# MISSION 0x02 #
+################
+
+## EN ##
+The user angela has saved her password in a file but she does not remember where ... she only remembers that the file was called whereismypazz.txt
+
+## ES ##
+La usuaria angela ha guardado su password en un fichero pero no recuerda donde... solo recuerda que el fichero se llamaba whereismypazz.txt
+sophia@venus:~$ find / -name whereismypazz.txt 2>/dev/null
+/usr/share/whereismypazz.txt
+sophia@venus:~$ cat /usr/share/whereismypazz.txt
+oh5p9gAABugHBje
+sophia@venus:~$ su angela
+Password:
+angela@venus:/pwned/sophia$ cd $HOME
+angela@venus:~$
+Mission 0x03
+angela@venus:~$ cat mission.txt
+################
+# MISSION 0x03 #
+################
+
+## EN ##
+The password of the user emma is in line 4069 of the file findme.txt
+
+## ES ##
+La password de la usuaria emma esta en la linea 4069 del fichero findme.txt
+angela@venus:~$ cat findme.txt | head -n 4069 | tail -n 1
+fIvltaGaq0OUH8O
+angela@venus:~$ su emma
+Password:
+emma@venus:/pwned/angela$ cd $HOME
+emma@venus:~$
+Mission 0x04
+emma@venus:~$ cat mission.txt
+################
+# MISSION 0x04 #
+################
+
+## EN ##
+User mia has left her password in the file -.
+## ES ##
+La usuaria mia ha dejado su password en el fichero -.
+emma@venus:~$ cat ./-
+iKXIYg0pyEH2Hos
+emma@venus:~$ su mia
+Password:
+mia@venus:/pwned/emma$ cd $HOME
+mia@venus:~$
+Mission 0x05
+mia@venus:~$ cat mission.txt
+################
+# MISSION 0x05 #
+################
+
+## EN ##
+It seems that the user camila has left her password inside a folder called hereiam
+
+## ES ##
+Parece que la usuaria camila ha dejado su password dentro de una carpeta llamada hereiam
+mia@venus:~$ find / -type d -name hereiam 2>/dev/null
+/opt/hereiam
+mia@venus:~$ ls -lahtr /opt/hereiam
+total 12K
+-rw-r--r-- 1 root root   16 Apr  7 05:55 .here
+drwxr-xr-x 1 root root 4.0K Apr  7 05:55 ..
+drwxr-xr-x 2 root root 4.0K Apr  7 05:55 .
+mia@venus:~$ cat /opt/hereiam/.here
+F67aDmCAAgOOaOc
+mia@venus:~$ su camila
+Password:
+camila@venus:/pwned/mia$ cd $HOME
+camila@venus:~$
+Mission 0x06
+camila@venus:~$ cat mission.txt
+################
+# MISSION 0x06 #
+################
+
+## EN ##
+The user luna has left her password in a file inside the muack folder.
+
+## ES ##
+La usuaria luna ha dejado su password en algun fichero dentro de la carpeta muack.
+camila@venus:~$ find ./muack/ -type f
+./muack/111/111/muack
+camila@venus:~$ cat ./muack/111/111/muack
+j3vkuoKQwvbhkMc
+camila@venus:~$ su luna
+Password:
+luna@venus:/pwned/camila$ cd $HOME
+luna@venus:~$
+Mission 0x07
+luna@venus:~$ cat mission.txt
+################
+# MISSION 0x07 #
+################
+
+## EN ##
+The user eleanor has left her password in a file that occupies 6969 bytes.
+
+## ES ##
+La usuaria eleanor ha dejado su password en un fichero que ocupa 6969 bytes.
+luna@venus:~$ find / -type f -size 6969c 2>/dev/null
+/usr/share/man/man1/h2xs.1.gz
+/usr/share/moon.txt
+luna@venus:~$ cat /usr/share/moon.txt
+UNDchvln6Bmtu7b
+luna@venus:~$ su eleanor
+Password:
+eleanor@venus:/pwned/luna$ cd $HOME
+eleanor@venus:~$
+Mission 0x08
+eleanor@venus:~$ cat mission.txt
+################
+# MISSION 0x08 #
+################
+
+## EN ##
+The user victoria has left her password in a file in which the owner is the user violin.
+
+## ES ##
+La usuaria victoria ha dejado su password en un fichero en el cual el propietario es el usuario violin.
+eleanor@venus:~$ find / -user violin 2>/dev/null
+/usr/local/games/yo
+eleanor@venus:~$ cat /usr/local/games/yo
+pz8OqvJBFxH0cSj
+eleanor@venus:~$ su victoria
+Password:
+victoria@venus:/pwned/eleanor$ cd $HOME
+victoria@venus:~$
+Mission 0x09
+victoria@venus:~$ cat mission.txt
+################
+# MISSION 0x09 #
+################
+
+## EN ##
+The user isla has left her password in a zip file.
+
+## ES ##
+La usuaria isla ha dejado su password en un fichero zip.
+victoria@venus:~$ find / -type f -name &#39;*.zip&#39; 2>/dev/null
+/pwned/victoria/passw0rd.zip
+victoria@venus:~$ cat /pwned/victoria/passw0rd.zip | gunzip
+D3XTob0FUImsoBb
+victoria@venus:~$ su isla
+Password:
+isla@venus:/pwned/victoria$ cd $HOME
+isla@venus:~$
+Mission 0x10 (should have been 0x0A)
+isla@venus:~$ cat mission.txt
+################
+# MISSION 0x10 #
+################
+
+## EN ##
+The password of the user violet is in the line that begins with a9HFX (these 5 characters are not part of her password.).
+
+## ES ##
+El password de la usuaria violet esta en la linea que empieza por a9HFX (sin ser estos 5 caracteres parte de su password.).
+isla@venus:~$ ls
+flagz.txt  mission.txt  passy
+isla@venus:~$ cat passy | grep "^a9HFX"
+a9HFXWKINVzNQLKLDVAc
+isla@venus:~$ su violet
+Password:
+violet@venus:/pwned/isla$ cd $HOME
+violet@venus:~$
+Mission 0x11
+violet@venus:~$ cat mission.txt
+################
+# MISSION 0x11 #
+################
+
+## EN ##
+The password of the user lucy is in the line that ends with 0JuAZ (these last 5 characters are not part of her password)
+
+## ES ##
+El password de la usuaria lucy se encuentra en la linea que acaba por 0JuAZ (sin ser estos ultimos 5 caracteres parte de su password)
+violet@venus:~$ ls
+end  flagz.txt  mission.txt
+violet@venus:~$ cat end | grep "0JuAZ$"
+OCmMUjebG53giud0JuAZ
+violet@venus:~$ su lucy
+Password:
+lucy@venus:/pwned/violet$ cd $HOME
+lucy@venus:~$
+Mission 0x12
+lucy@venus:~$ cat mission.txt
+################
+# MISSION 0x12 #
+################
+
+## EN ##
+The password of the user elena is between the characters fu and ck
+
+## ES ##
+El password de la usuaria elena esta entre los caracteres fu y ck
+lucy@venus:~$ ls
+file.yo  flagz.txt  mission.txt
+lucy@venus:~$ cat file.yo | grep "fu.*ck"
+fu4xZ5lIKYmfPLg9tck
+lucy@venus:~$ su elena
+Password:
+elena@venus:/pwned/lucy$ cd $HOME
+elena@venus:~$
+Mission 0x13
+elena@venus:~$ cat mission.txt
+################
+# MISSION 0x13 #
+################
+
+## EN ##
+The user alice has her password is in an environment variable.
+
+## ES ##
+La password de alice esta en una variable de entorno.
+elena@venus:~$ env | grep -i pass
+PASS=Cgecy2MY2MWbaqt
+elena@venus:~$ su alice
+Password:
+alice@venus:/pwned/elena$ cd $HOME
+alice@venus:~$
+Mission 0x14
+alice@venus:~$ cat mission.txt
+################
+# MISSION 0x14 #
+################
+
+## EN ##
+The admin has left the password of the user anna as a comment in the file passwd.
+
+## ES ##
+El admin ha dejado la password de anna como comentario en el fichero passwd.
+alice@venus:~$ cat /etc/passwd | cut -d&#39;:&#39; -f5 | sort -u
+
+Gnats Bug-Reporting System (admin)
+Mailing List Manager
+MySQL Server,,,
+backup
+bin
+daemon
+games
+ircd
+lp
+mail
+man
+news
+nobody
+proxy
+root
+sync
+sys
+systemd Network Management,,,
+systemd Resolver,,,
+systemd Time Synchronization,,,
+uucp
+w8NvY27qkpdePox
+www-data
+alice@venus:~$ su anna
+Password:
+anna@venus:/pwned/alice$ cd $HOME
+anna@venus:~$
+Mission 0x15
+anna@venus:~$ cat mission.txt
+################
+# MISSION 0x15 #
+################
+
+## EN ##
+Maybe sudo can help you to be natalia.
+
+## ES ##
+Puede que sudo te ayude para ser natalia.
+anna@venus:~$ sudo -l
+Matching Defaults entries for anna on venus:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User anna may run the following commands on venus:
+    (natalia) NOPASSWD: /bin/bash
+anna@venus:~$ sudo -u natalia /bin/bash
+natalia@venus:/pwned/anna$ cd $HOME
+natalia@venus:~$
+Mission 0x16
+natalia@venus:~$ cat mission.txt
+################
+# MISSION 0x16 #
+################
+
+## EN ##
+The password of user eva is encoded in the base64.txt file
+
+## ES ##
+El password de eva esta encodeado en el fichero base64.txt
+natalia@venus:~$ ls
+base64.txt  flagz.txt  mission.txt  nataliapass.txt
+natalia@venus:~$ cat base64.txt | base64 -d
+upsCA3UFu10fDAO
+natalia@venus:~$ su eva
+Password:
+eva@venus:/pwned/natalia$ cd $HOME
+eva@venus:~$
+Mission 0x17
+eva@venus:~$ cat mission.txt
+################
+# MISSION 0x17 #
+################
+
+## EN ##
+The password of the clara user is found in a file modified on May 1, 1968.
+
+## ES ##
+La password de la usuaria clara se encuentra en un fichero modificado el 01 de Mayo de 1968.
+eva@venus:~$ find / -type f -ls 2>/dev/null | grep "May.*1968"
+eva@venus:~$ find / -type f -mtime +100000 2>/dev/null
+eva@venus:~$ find / -type f -mtime +50000 2>/dev/null
+eva@venus:~$ find / -type f -mtime +20000 2>/dev/null
+eva@venus:~$ find / -type f -mtime +10000 2>/dev/null
+/usr/lib/cmdo
+/usr/share/doc/cron/changelog.gz
+/usr/share/doc/cron/THANKS
+/usr/share/doc/cron/FEATURES
+eva@venus:~$ ls -lhatr /usr/lib/cmdo
+-rw-r--r-- 1 root root 16 Jan  1  1970 /usr/lib/cmdo
+eva@venus:~$ file /usr/lib/cmdo
+/usr/lib/cmdo: ASCII text
+eva@venus:~$ cat /usr/lib/cmdo
+39YziWp5gSvgQN9
+eva@venus:~$ su clara
+Password:
+clara@venus:/pwned/eva$ cd $HOME
+clara@venus:~$
+Mission 0x18
+clara@venus:~$ cat mission.txt
+################
+# MISSION 0x18 #
+################
+
+## EN ##
+The password of user frida is in the password-protected zip (rockyou.txt can help you)
+
+## ES ##
+La password de frida esta en el zip protegido con password.(rockyou.txt puede ayudarte)
+clara@venus:~$ ls -l
+total 12
+-rw-r----- 1 root clara  31 Apr  7 05:55 flagz.txt
+-rw-r----- 1 root clara 247 Apr  7 05:55 mission.txt
+-rw-r----- 1 root clara 244 Apr  7 05:55 protected.zip
+clara@venus:~$ pwd
+/pwned/clara
+clara@venus:~$
+This is the first challenge where we have to transfer files to our machine in
+order to solve it. To transfer files between machines, we can use the scp
+command. '><link rel=canonical href=https://pyska-ratzinger.github.io/posts/2022-05-06-hackmyvm-venus/><meta property="og:url" content="https://pyska-ratzinger.github.io/posts/2022-05-06-hackmyvm-venus/"><meta property="og:site_name" content="PysKa's Writeups"><meta property="og:title" content="HackMyVM Venus (challenge)"><meta property="og:description" content='Mission 0x01 hacker@venus:~$ ls -lhatr total 44K -rw-r--r-- 1 hacker hacker 807 Aug 4 2021 .profile -rw-r--r-- 1 hacker hacker 3.5K Aug 4 2021 .bashrc -rw-r----- 1 root hacker 2.5K Apr 7 05:55 readme.txt -rw-r----- 1 root hacker 287 Apr 7 05:55 mission.txt -rw-r----- 1 root hacker 16 Apr 7 05:55 .myhiddenpazz drwxr-xr-x 1 root root 4.0K Apr 7 05:55 .. -rw-r----- 1 root hacker 31 Apr 7 06:00 ... -rw-r--r-- 1 root root 0 Apr 8 18:33 .hushlogin drwxr-x--- 1 root hacker 4.0K Apr 8 18:33 . -rwxr-xr-x 1 hacker hacker 220 Apr 17 23:44 .bash_logout hacker@venus:~$ cat mission.txt ################ # MISSION 0x01 # ################ ## EN ## User sophia has saved her password in a hidden file in this folder. Find it and log in as sophia. ## ES ## La usuaria sophia ha guardado su contraseña en un fichero oculto en esta carpeta.Encuentralo y logueate como sophia. hacker@venus:~$ cat .myhiddenpazz Y1o645M3mR84ejc hacker@venus:~$ su sophia Password: sophia@venus:/pwned/hacker$ cd $HOME sophia@venus:~$ Mission 0x02 sophia@venus:~$ cat mission.txt ################ # MISSION 0x02 # ################ ## EN ## The user angela has saved her password in a file but she does not remember where ... she only remembers that the file was called whereismypazz.txt ## ES ## La usuaria angela ha guardado su password en un fichero pero no recuerda donde... solo recuerda que el fichero se llamaba whereismypazz.txt sophia@venus:~$ find / -name whereismypazz.txt 2>/dev/null /usr/share/whereismypazz.txt sophia@venus:~$ cat /usr/share/whereismypazz.txt oh5p9gAABugHBje sophia@venus:~$ su angela Password: angela@venus:/pwned/sophia$ cd $HOME angela@venus:~$ Mission 0x03 angela@venus:~$ cat mission.txt ################ # MISSION 0x03 # ################ ## EN ## The password of the user emma is in line 4069 of the file findme.txt ## ES ## La password de la usuaria emma esta en la linea 4069 del fichero findme.txt angela@venus:~$ cat findme.txt | head -n 4069 | tail -n 1 fIvltaGaq0OUH8O angela@venus:~$ su emma Password: emma@venus:/pwned/angela$ cd $HOME emma@venus:~$ Mission 0x04 emma@venus:~$ cat mission.txt ################ # MISSION 0x04 # ################ ## EN ## User mia has left her password in the file -. ## ES ## La usuaria mia ha dejado su password en el fichero -. emma@venus:~$ cat ./- iKXIYg0pyEH2Hos emma@venus:~$ su mia Password: mia@venus:/pwned/emma$ cd $HOME mia@venus:~$ Mission 0x05 mia@venus:~$ cat mission.txt ################ # MISSION 0x05 # ################ ## EN ## It seems that the user camila has left her password inside a folder called hereiam ## ES ## Parece que la usuaria camila ha dejado su password dentro de una carpeta llamada hereiam mia@venus:~$ find / -type d -name hereiam 2>/dev/null /opt/hereiam mia@venus:~$ ls -lahtr /opt/hereiam total 12K -rw-r--r-- 1 root root 16 Apr 7 05:55 .here drwxr-xr-x 1 root root 4.0K Apr 7 05:55 .. drwxr-xr-x 2 root root 4.0K Apr 7 05:55 . mia@venus:~$ cat /opt/hereiam/.here F67aDmCAAgOOaOc mia@venus:~$ su camila Password: camila@venus:/pwned/mia$ cd $HOME camila@venus:~$ Mission 0x06 camila@venus:~$ cat mission.txt ################ # MISSION 0x06 # ################ ## EN ## The user luna has left her password in a file inside the muack folder. ## ES ## La usuaria luna ha dejado su password en algun fichero dentro de la carpeta muack. camila@venus:~$ find ./muack/ -type f ./muack/111/111/muack camila@venus:~$ cat ./muack/111/111/muack j3vkuoKQwvbhkMc camila@venus:~$ su luna Password: luna@venus:/pwned/camila$ cd $HOME luna@venus:~$ Mission 0x07 luna@venus:~$ cat mission.txt ################ # MISSION 0x07 # ################ ## EN ## The user eleanor has left her password in a file that occupies 6969 bytes. ## ES ## La usuaria eleanor ha dejado su password en un fichero que ocupa 6969 bytes. luna@venus:~$ find / -type f -size 6969c 2>/dev/null /usr/share/man/man1/h2xs.1.gz /usr/share/moon.txt luna@venus:~$ cat /usr/share/moon.txt UNDchvln6Bmtu7b luna@venus:~$ su eleanor Password: eleanor@venus:/pwned/luna$ cd $HOME eleanor@venus:~$ Mission 0x08 eleanor@venus:~$ cat mission.txt ################ # MISSION 0x08 # ################ ## EN ## The user victoria has left her password in a file in which the owner is the user violin. ## ES ## La usuaria victoria ha dejado su password en un fichero en el cual el propietario es el usuario violin. eleanor@venus:~$ find / -user violin 2>/dev/null /usr/local/games/yo eleanor@venus:~$ cat /usr/local/games/yo pz8OqvJBFxH0cSj eleanor@venus:~$ su victoria Password: victoria@venus:/pwned/eleanor$ cd $HOME victoria@venus:~$ Mission 0x09 victoria@venus:~$ cat mission.txt ################ # MISSION 0x09 # ################ ## EN ## The user isla has left her password in a zip file. ## ES ## La usuaria isla ha dejado su password en un fichero zip. victoria@venus:~$ find / -type f -name &#39;*.zip&#39; 2>/dev/null /pwned/victoria/passw0rd.zip victoria@venus:~$ cat /pwned/victoria/passw0rd.zip | gunzip D3XTob0FUImsoBb victoria@venus:~$ su isla Password: isla@venus:/pwned/victoria$ cd $HOME isla@venus:~$ Mission 0x10 (should have been 0x0A) isla@venus:~$ cat mission.txt ################ # MISSION 0x10 # ################ ## EN ## The password of the user violet is in the line that begins with a9HFX (these 5 characters are not part of her password.). ## ES ## El password de la usuaria violet esta en la linea que empieza por a9HFX (sin ser estos 5 caracteres parte de su password.). isla@venus:~$ ls flagz.txt mission.txt passy isla@venus:~$ cat passy | grep "^a9HFX" a9HFXWKINVzNQLKLDVAc isla@venus:~$ su violet Password: violet@venus:/pwned/isla$ cd $HOME violet@venus:~$ Mission 0x11 violet@venus:~$ cat mission.txt ################ # MISSION 0x11 # ################ ## EN ## The password of the user lucy is in the line that ends with 0JuAZ (these last 5 characters are not part of her password) ## ES ## El password de la usuaria lucy se encuentra en la linea que acaba por 0JuAZ (sin ser estos ultimos 5 caracteres parte de su password) violet@venus:~$ ls end flagz.txt mission.txt violet@venus:~$ cat end | grep "0JuAZ$" OCmMUjebG53giud0JuAZ violet@venus:~$ su lucy Password: lucy@venus:/pwned/violet$ cd $HOME lucy@venus:~$ Mission 0x12 lucy@venus:~$ cat mission.txt ################ # MISSION 0x12 # ################ ## EN ## The password of the user elena is between the characters fu and ck ## ES ## El password de la usuaria elena esta entre los caracteres fu y ck lucy@venus:~$ ls file.yo flagz.txt mission.txt lucy@venus:~$ cat file.yo | grep "fu.*ck" fu4xZ5lIKYmfPLg9tck lucy@venus:~$ su elena Password: elena@venus:/pwned/lucy$ cd $HOME elena@venus:~$ Mission 0x13 elena@venus:~$ cat mission.txt ################ # MISSION 0x13 # ################ ## EN ## The user alice has her password is in an environment variable. ## ES ## La password de alice esta en una variable de entorno. elena@venus:~$ env | grep -i pass PASS=Cgecy2MY2MWbaqt elena@venus:~$ su alice Password: alice@venus:/pwned/elena$ cd $HOME alice@venus:~$ Mission 0x14 alice@venus:~$ cat mission.txt ################ # MISSION 0x14 # ################ ## EN ## The admin has left the password of the user anna as a comment in the file passwd. ## ES ## El admin ha dejado la password de anna como comentario en el fichero passwd. alice@venus:~$ cat /etc/passwd | cut -d&#39;:&#39; -f5 | sort -u Gnats Bug-Reporting System (admin) Mailing List Manager MySQL Server,,, backup bin daemon games ircd lp mail man news nobody proxy root sync sys systemd Network Management,,, systemd Resolver,,, systemd Time Synchronization,,, uucp w8NvY27qkpdePox www-data alice@venus:~$ su anna Password: anna@venus:/pwned/alice$ cd $HOME anna@venus:~$ Mission 0x15 anna@venus:~$ cat mission.txt ################ # MISSION 0x15 # ################ ## EN ## Maybe sudo can help you to be natalia. ## ES ## Puede que sudo te ayude para ser natalia. anna@venus:~$ sudo -l Matching Defaults entries for anna on venus: env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin User anna may run the following commands on venus: (natalia) NOPASSWD: /bin/bash anna@venus:~$ sudo -u natalia /bin/bash natalia@venus:/pwned/anna$ cd $HOME natalia@venus:~$ Mission 0x16 natalia@venus:~$ cat mission.txt ################ # MISSION 0x16 # ################ ## EN ## The password of user eva is encoded in the base64.txt file ## ES ## El password de eva esta encodeado en el fichero base64.txt natalia@venus:~$ ls base64.txt flagz.txt mission.txt nataliapass.txt natalia@venus:~$ cat base64.txt | base64 -d upsCA3UFu10fDAO natalia@venus:~$ su eva Password: eva@venus:/pwned/natalia$ cd $HOME eva@venus:~$ Mission 0x17 eva@venus:~$ cat mission.txt ################ # MISSION 0x17 # ################ ## EN ## The password of the clara user is found in a file modified on May 1, 1968. ## ES ## La password de la usuaria clara se encuentra en un fichero modificado el 01 de Mayo de 1968. eva@venus:~$ find / -type f -ls 2>/dev/null | grep "May.*1968" eva@venus:~$ find / -type f -mtime +100000 2>/dev/null eva@venus:~$ find / -type f -mtime +50000 2>/dev/null eva@venus:~$ find / -type f -mtime +20000 2>/dev/null eva@venus:~$ find / -type f -mtime +10000 2>/dev/null /usr/lib/cmdo /usr/share/doc/cron/changelog.gz /usr/share/doc/cron/THANKS /usr/share/doc/cron/FEATURES eva@venus:~$ ls -lhatr /usr/lib/cmdo -rw-r--r-- 1 root root 16 Jan 1 1970 /usr/lib/cmdo eva@venus:~$ file /usr/lib/cmdo /usr/lib/cmdo: ASCII text eva@venus:~$ cat /usr/lib/cmdo 39YziWp5gSvgQN9 eva@venus:~$ su clara Password: clara@venus:/pwned/eva$ cd $HOME clara@venus:~$ Mission 0x18 clara@venus:~$ cat mission.txt ################ # MISSION 0x18 # ################ ## EN ## The password of user frida is in the password-protected zip (rockyou.txt can help you) ## ES ## La password de frida esta en el zip protegido con password.(rockyou.txt puede ayudarte) clara@venus:~$ ls -l total 12 -rw-r----- 1 root clara 31 Apr 7 05:55 flagz.txt -rw-r----- 1 root clara 247 Apr 7 05:55 mission.txt -rw-r----- 1 root clara 244 Apr 7 05:55 protected.zip clara@venus:~$ pwd /pwned/clara clara@venus:~$ This is the first challenge where we have to transfer files to our machine in order to solve it. To transfer files between machines, we can use the scp command.'><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-05-06T18:23:17+01:00"><meta property="article:modified_time" content="2022-05-06T18:23:17+01:00"><meta property="article:tag" content="Hackmyvm"><meta name=twitter:card content="summary"><meta name=twitter:title content="HackMyVM Venus (challenge)"><meta name=twitter:description content='Mission 0x01 hacker@venus:~$ ls -lhatr total 44K -rw-r--r-- 1 hacker hacker 807 Aug 4 2021 .profile -rw-r--r-- 1 hacker hacker 3.5K Aug 4 2021 .bashrc -rw-r----- 1 root hacker 2.5K Apr 7 05:55 readme.txt -rw-r----- 1 root hacker 287 Apr 7 05:55 mission.txt -rw-r----- 1 root hacker 16 Apr 7 05:55 .myhiddenpazz drwxr-xr-x 1 root root 4.0K Apr 7 05:55 .. -rw-r----- 1 root hacker 31 Apr 7 06:00 ... -rw-r--r-- 1 root root 0 Apr 8 18:33 .hushlogin drwxr-x--- 1 root hacker 4.0K Apr 8 18:33 . -rwxr-xr-x 1 hacker hacker 220 Apr 17 23:44 .bash_logout hacker@venus:~$ cat mission.txt ################ # MISSION 0x01 # ################ ## EN ## User sophia has saved her password in a hidden file in this folder. Find it and log in as sophia. ## ES ## La usuaria sophia ha guardado su contraseña en un fichero oculto en esta carpeta.Encuentralo y logueate como sophia. hacker@venus:~$ cat .myhiddenpazz Y1o645M3mR84ejc hacker@venus:~$ su sophia Password: sophia@venus:/pwned/hacker$ cd $HOME sophia@venus:~$ Mission 0x02 sophia@venus:~$ cat mission.txt ################ # MISSION 0x02 # ################ ## EN ## The user angela has saved her password in a file but she does not remember where ... she only remembers that the file was called whereismypazz.txt ## ES ## La usuaria angela ha guardado su password en un fichero pero no recuerda donde... solo recuerda que el fichero se llamaba whereismypazz.txt sophia@venus:~$ find / -name whereismypazz.txt 2>/dev/null /usr/share/whereismypazz.txt sophia@venus:~$ cat /usr/share/whereismypazz.txt oh5p9gAABugHBje sophia@venus:~$ su angela Password: angela@venus:/pwned/sophia$ cd $HOME angela@venus:~$ Mission 0x03 angela@venus:~$ cat mission.txt ################ # MISSION 0x03 # ################ ## EN ## The password of the user emma is in line 4069 of the file findme.txt ## ES ## La password de la usuaria emma esta en la linea 4069 del fichero findme.txt angela@venus:~$ cat findme.txt | head -n 4069 | tail -n 1 fIvltaGaq0OUH8O angela@venus:~$ su emma Password: emma@venus:/pwned/angela$ cd $HOME emma@venus:~$ Mission 0x04 emma@venus:~$ cat mission.txt ################ # MISSION 0x04 # ################ ## EN ## User mia has left her password in the file -. ## ES ## La usuaria mia ha dejado su password en el fichero -. emma@venus:~$ cat ./- iKXIYg0pyEH2Hos emma@venus:~$ su mia Password: mia@venus:/pwned/emma$ cd $HOME mia@venus:~$ Mission 0x05 mia@venus:~$ cat mission.txt ################ # MISSION 0x05 # ################ ## EN ## It seems that the user camila has left her password inside a folder called hereiam ## ES ## Parece que la usuaria camila ha dejado su password dentro de una carpeta llamada hereiam mia@venus:~$ find / -type d -name hereiam 2>/dev/null /opt/hereiam mia@venus:~$ ls -lahtr /opt/hereiam total 12K -rw-r--r-- 1 root root 16 Apr 7 05:55 .here drwxr-xr-x 1 root root 4.0K Apr 7 05:55 .. drwxr-xr-x 2 root root 4.0K Apr 7 05:55 . mia@venus:~$ cat /opt/hereiam/.here F67aDmCAAgOOaOc mia@venus:~$ su camila Password: camila@venus:/pwned/mia$ cd $HOME camila@venus:~$ Mission 0x06 camila@venus:~$ cat mission.txt ################ # MISSION 0x06 # ################ ## EN ## The user luna has left her password in a file inside the muack folder. ## ES ## La usuaria luna ha dejado su password en algun fichero dentro de la carpeta muack. camila@venus:~$ find ./muack/ -type f ./muack/111/111/muack camila@venus:~$ cat ./muack/111/111/muack j3vkuoKQwvbhkMc camila@venus:~$ su luna Password: luna@venus:/pwned/camila$ cd $HOME luna@venus:~$ Mission 0x07 luna@venus:~$ cat mission.txt ################ # MISSION 0x07 # ################ ## EN ## The user eleanor has left her password in a file that occupies 6969 bytes. ## ES ## La usuaria eleanor ha dejado su password en un fichero que ocupa 6969 bytes. luna@venus:~$ find / -type f -size 6969c 2>/dev/null /usr/share/man/man1/h2xs.1.gz /usr/share/moon.txt luna@venus:~$ cat /usr/share/moon.txt UNDchvln6Bmtu7b luna@venus:~$ su eleanor Password: eleanor@venus:/pwned/luna$ cd $HOME eleanor@venus:~$ Mission 0x08 eleanor@venus:~$ cat mission.txt ################ # MISSION 0x08 # ################ ## EN ## The user victoria has left her password in a file in which the owner is the user violin. ## ES ## La usuaria victoria ha dejado su password en un fichero en el cual el propietario es el usuario violin. eleanor@venus:~$ find / -user violin 2>/dev/null /usr/local/games/yo eleanor@venus:~$ cat /usr/local/games/yo pz8OqvJBFxH0cSj eleanor@venus:~$ su victoria Password: victoria@venus:/pwned/eleanor$ cd $HOME victoria@venus:~$ Mission 0x09 victoria@venus:~$ cat mission.txt ################ # MISSION 0x09 # ################ ## EN ## The user isla has left her password in a zip file. ## ES ## La usuaria isla ha dejado su password en un fichero zip. victoria@venus:~$ find / -type f -name &#39;*.zip&#39; 2>/dev/null /pwned/victoria/passw0rd.zip victoria@venus:~$ cat /pwned/victoria/passw0rd.zip | gunzip D3XTob0FUImsoBb victoria@venus:~$ su isla Password: isla@venus:/pwned/victoria$ cd $HOME isla@venus:~$ Mission 0x10 (should have been 0x0A) isla@venus:~$ cat mission.txt ################ # MISSION 0x10 # ################ ## EN ## The password of the user violet is in the line that begins with a9HFX (these 5 characters are not part of her password.). ## ES ## El password de la usuaria violet esta en la linea que empieza por a9HFX (sin ser estos 5 caracteres parte de su password.). isla@venus:~$ ls flagz.txt mission.txt passy isla@venus:~$ cat passy | grep "^a9HFX" a9HFXWKINVzNQLKLDVAc isla@venus:~$ su violet Password: violet@venus:/pwned/isla$ cd $HOME violet@venus:~$ Mission 0x11 violet@venus:~$ cat mission.txt ################ # MISSION 0x11 # ################ ## EN ## The password of the user lucy is in the line that ends with 0JuAZ (these last 5 characters are not part of her password) ## ES ## El password de la usuaria lucy se encuentra en la linea que acaba por 0JuAZ (sin ser estos ultimos 5 caracteres parte de su password) violet@venus:~$ ls end flagz.txt mission.txt violet@venus:~$ cat end | grep "0JuAZ$" OCmMUjebG53giud0JuAZ violet@venus:~$ su lucy Password: lucy@venus:/pwned/violet$ cd $HOME lucy@venus:~$ Mission 0x12 lucy@venus:~$ cat mission.txt ################ # MISSION 0x12 # ################ ## EN ## The password of the user elena is between the characters fu and ck ## ES ## El password de la usuaria elena esta entre los caracteres fu y ck lucy@venus:~$ ls file.yo flagz.txt mission.txt lucy@venus:~$ cat file.yo | grep "fu.*ck" fu4xZ5lIKYmfPLg9tck lucy@venus:~$ su elena Password: elena@venus:/pwned/lucy$ cd $HOME elena@venus:~$ Mission 0x13 elena@venus:~$ cat mission.txt ################ # MISSION 0x13 # ################ ## EN ## The user alice has her password is in an environment variable. ## ES ## La password de alice esta en una variable de entorno. elena@venus:~$ env | grep -i pass PASS=Cgecy2MY2MWbaqt elena@venus:~$ su alice Password: alice@venus:/pwned/elena$ cd $HOME alice@venus:~$ Mission 0x14 alice@venus:~$ cat mission.txt ################ # MISSION 0x14 # ################ ## EN ## The admin has left the password of the user anna as a comment in the file passwd. ## ES ## El admin ha dejado la password de anna como comentario en el fichero passwd. alice@venus:~$ cat /etc/passwd | cut -d&#39;:&#39; -f5 | sort -u Gnats Bug-Reporting System (admin) Mailing List Manager MySQL Server,,, backup bin daemon games ircd lp mail man news nobody proxy root sync sys systemd Network Management,,, systemd Resolver,,, systemd Time Synchronization,,, uucp w8NvY27qkpdePox www-data alice@venus:~$ su anna Password: anna@venus:/pwned/alice$ cd $HOME anna@venus:~$ Mission 0x15 anna@venus:~$ cat mission.txt ################ # MISSION 0x15 # ################ ## EN ## Maybe sudo can help you to be natalia. ## ES ## Puede que sudo te ayude para ser natalia. anna@venus:~$ sudo -l Matching Defaults entries for anna on venus: env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin User anna may run the following commands on venus: (natalia) NOPASSWD: /bin/bash anna@venus:~$ sudo -u natalia /bin/bash natalia@venus:/pwned/anna$ cd $HOME natalia@venus:~$ Mission 0x16 natalia@venus:~$ cat mission.txt ################ # MISSION 0x16 # ################ ## EN ## The password of user eva is encoded in the base64.txt file ## ES ## El password de eva esta encodeado en el fichero base64.txt natalia@venus:~$ ls base64.txt flagz.txt mission.txt nataliapass.txt natalia@venus:~$ cat base64.txt | base64 -d upsCA3UFu10fDAO natalia@venus:~$ su eva Password: eva@venus:/pwned/natalia$ cd $HOME eva@venus:~$ Mission 0x17 eva@venus:~$ cat mission.txt ################ # MISSION 0x17 # ################ ## EN ## The password of the clara user is found in a file modified on May 1, 1968. ## ES ## La password de la usuaria clara se encuentra en un fichero modificado el 01 de Mayo de 1968. eva@venus:~$ find / -type f -ls 2>/dev/null | grep "May.*1968" eva@venus:~$ find / -type f -mtime +100000 2>/dev/null eva@venus:~$ find / -type f -mtime +50000 2>/dev/null eva@venus:~$ find / -type f -mtime +20000 2>/dev/null eva@venus:~$ find / -type f -mtime +10000 2>/dev/null /usr/lib/cmdo /usr/share/doc/cron/changelog.gz /usr/share/doc/cron/THANKS /usr/share/doc/cron/FEATURES eva@venus:~$ ls -lhatr /usr/lib/cmdo -rw-r--r-- 1 root root 16 Jan 1 1970 /usr/lib/cmdo eva@venus:~$ file /usr/lib/cmdo /usr/lib/cmdo: ASCII text eva@venus:~$ cat /usr/lib/cmdo 39YziWp5gSvgQN9 eva@venus:~$ su clara Password: clara@venus:/pwned/eva$ cd $HOME clara@venus:~$ Mission 0x18 clara@venus:~$ cat mission.txt ################ # MISSION 0x18 # ################ ## EN ## The password of user frida is in the password-protected zip (rockyou.txt can help you) ## ES ## La password de frida esta en el zip protegido con password.(rockyou.txt puede ayudarte) clara@venus:~$ ls -l total 12 -rw-r----- 1 root clara 31 Apr 7 05:55 flagz.txt -rw-r----- 1 root clara 247 Apr 7 05:55 mission.txt -rw-r----- 1 root clara 244 Apr 7 05:55 protected.zip clara@venus:~$ pwd /pwned/clara clara@venus:~$ This is the first challenge where we have to transfer files to our machine in order to solve it. To transfer files between machines, we can use the scp command.'><link rel=stylesheet href=https://pyska-ratzinger.github.io/stylesheets/common.css><link href=https://pvinis.github.io/iosevka-webfont/7.0.2/iosevka.css rel=stylesheet><link rel=icon href="data:;base64,AAABAAEAPDwAAAEAIABIOgAAFgAAACgAAAA8AAAAeAAAAAEAIAAAAAAAQDgAAAAAAAAAAAAAAAAAAAAAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="></head><body><header><div><div class=main-title><a href=/ title=home><span class=logo><h1>PysKa's Writeups</h1></span></a></div><div id=navbar><div class=button><a href=/>Home</a></div><div class=button><a href=/posts>All posts</a></div><div class=button><a href=/categories>Categories</a></div><div class=button><a href=/tags>Tags</a></div><div class=button><a href=/about>About</a></div><div class="button ml-6"><a href=https://github.com/PysKa-Ratzinger/ title=GitHub><span class=icon><i class='fab fa-github'>Github</i></span></a></div></div></div></header><div class=main><div class=blog_info><div class=blog_description>Published on: <time>6 May, 2022</time> |
 33 minutes read<br><br><div class=blog_categories_and_tags><label>Categories:</label>
-<label>Tags:</label><div><a class=category-link href=/categories/linux>linux</a></div><div><a class=tag-link href=/tags/hackmyvm>hackmyvm</a></div></div></div></div><article><div class=blog_container><div class=blog_details><h1>HackMyVM Venus (challenge)</h1></div><div class=details><h2 id=mission-0x01>Mission 0x01</h2><div class=highlight><pre tabindex=0 style=color:#ebdbb2;background-color:#282828;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span>hacker@venus:~$ ls -lhatr
+<label>Tags:</label><div><a class=category-link href=/categories/linux>linux</a></div><div><a class=tag-link href=/tags/hackmyvm>hackmyvm</a></div></div></div></div><article><div class=blog_container><div id=article_title class=blog_details><h1>HackMyVM Venus (challenge)</h1></div><div id=article_content class=details><h2 id=mission-0x01>Mission 0x01</h2><div class=highlight><pre tabindex=0 style=color:#ebdbb2;background-color:#282828;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span>hacker@venus:~$ ls -lhatr
 </span></span><span style=display:flex><span>total 44K
 </span></span><span style=display:flex><span>-rw-r--r-- 1 hacker hacker  807 Aug  4  2021 .profile
 </span></span><span style=display:flex><span>-rw-r--r-- 1 hacker hacker 3.5K Aug  4  2021 .bashrc
@@ -1446,6 +1831,6 @@ file to our machine and then we can run hashcat over it:</p><div class=highlight
 </span></span><span style=display:flex><span>Password: 
 </span></span><span style=display:flex><span>ava@venus:/etc/bind$ cd $HOME
 </span></span><span style=display:flex><span>ava@venus:~$</span></span></code></pre></div><h2 id=mission-0x50>Mission 0x50</h2><p>This last mission is a riddle which I was not able to figure out. Will try
-again some other time, maybe.</p></div></div></article><div class=blog_info><div class=blog_description>By PysKa Ratzinger<br>Last modified: <time>6 May, 2022</time><br></div><a class=back_to_top href=#top>Back to top</a></div></div><footer><noscript>Website footer. You currently have javascript disabled.</noscript><button id=nukeBtn class="button warning">Delete all cookies</button>
+again some other time, maybe.</p></div></div></article><div id=interruptionSnackbar>Experiencing interruptions? <button id=interruptionFindOutBtn>Find out why.</button></div><div class=blog_info><div class=blog_description>By<br>Last modified: <time>6 May, 2022</time><br></div><a class=back_to_top href=#top>Back to top</a></div></div><footer><noscript>Website footer. You currently have javascript disabled.</noscript><button id=nukeBtn class="button warning">Delete all cookies</button>
 <dialog id=nukeDialog><h2>Are you sure you want to delete all cookies?.</h2><form method=dialog><p><label id=nukeLabel>Note: This will also remove every consent for every third-party service you accepted to use.</label></p><button id=cancelBtn>Cancel</button>
-<button id=confirmBtn>Confirm</button></form></dialog><dialog id=nuke2Dialog><h2>All cookies have been deleted.</h2><form method=dialog><p>The page will now refresh, in order to apply all changes.</p><button>Close</button></form></dialog><script type=module src=https://pyska-ratzinger.github.io/js/nukeDialog.js></script></footer></body></html>
+<button id=confirmBtn>Confirm</button></form></dialog><dialog id=nuke2Dialog><h2>All cookies have been deleted.</h2><form method=dialog><p>The page will now refresh, in order to apply all changes.</p><button>Close</button></form></dialog><script type=module src=https://pyska-ratzinger.github.io/js/nukeDialog.js></script><script type=module src=https://pyska-ratzinger.github.io/js/fakeInterruption.js></script></footer></body></html>

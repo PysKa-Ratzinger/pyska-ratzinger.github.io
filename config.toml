@@ -5,6 +5,7 @@ title = "PysKa's Writeups"
 theme = "pyska_eyes"
 
 disqusShortname = 'pyskaratzinger'
+buildDrafts = false
 
 [author]
 	name = "PysKa Ratzinger"
